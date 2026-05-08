@@ -6,7 +6,7 @@ import { getCollection, getEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const textes = await getCollection('textes', e => e.data.langues.includes('en'));
-  return textes.map(e => ({ params: { slug: e.slug } }));
+  return textes.map(e => ({ params: { slug: e.id } }));
 }
 
 const { slug } = Astro.params;

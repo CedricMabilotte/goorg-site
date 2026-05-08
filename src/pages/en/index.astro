@@ -46,12 +46,12 @@ const all = [...textes, ...transits, ...resonances]
         <EntryCard
           type={entry.data.type as 'texte' | 'transit' | 'resonance'}
           titre={'titre_en' in entry.data && entry.data.titre_en ? entry.data.titre_en : ('titre' in entry.data ? entry.data.titre : undefined)}
-          extrait={entry.data.extrait || entry.body.slice(0, 220) + '…'}
+          extrait={entry.data.extrait || ''}
           date={entry.data.date.toLocaleDateString('en-GB')}
           auteur={'auteur' in entry.data ? entry.data.auteur : undefined}
           co_auteur_ia={entry.data.co_auteur_ia}
           langues={entry.data.langues}
-          slug={entry.slug}
+          slug={entry.id}
           lang="en"
         />
       ))}

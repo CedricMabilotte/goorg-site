@@ -1,12 +1,13 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const textes = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/textes' }),
   schema: z.object({
     titre: z.string(),
     titre_en: z.string().optional(),
     type: z.literal('texte'),
-    date: z.date(),
+    date: z.coerce.date(),
     auteur: z.string().optional(),
     co_auteur: z.string().optional(),
     co_auteur_ia: z.boolean().default(false),
@@ -22,10 +23,10 @@ const textes = defineCollection({
 });
 
 const transits = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/transits' }),
   schema: z.object({
     type: z.literal('transit'),
-    date: z.date(),
+    date: z.coerce.date(),
     heure: z.string().optional(),
     auteur: z.string().optional(),
     co_auteur_ia: z.boolean().default(false),
@@ -36,12 +37,12 @@ const transits = defineCollection({
 });
 
 const resonances = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/resonances' }),
   schema: z.object({
     titre: z.string(),
     titre_en: z.string().optional(),
     type: z.literal('resonance'),
-    date: z.date(),
+    date: z.coerce.date(),
     auteur: z.string().optional(),
     co_auteur_ia: z.boolean().default(false),
     source_url: z.string().optional(),
@@ -54,7 +55,7 @@ const resonances = defineCollection({
 });
 
 const glossaire = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/glossaire' }),
   schema: z.object({
     terme: z.string(),
     terme_en: z.string().optional(),
