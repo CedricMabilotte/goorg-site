@@ -8,6 +8,7 @@ const textes = defineCollection({
     type: z.literal('texte'),
     date: z.date(),
     auteur: z.string().optional(),
+    co_auteur: z.string().optional(),
     co_auteur_ia: z.boolean().default(false),
     modele_ia: z.string().optional(),
     langue_originale: z.enum(['fr', 'en']).default('fr'),

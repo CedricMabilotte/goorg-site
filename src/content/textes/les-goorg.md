@@ -4,10 +4,11 @@ titre_en: "The Goorg"
 type: texte
 date: 2026-05-08
 auteur: "Cedric Mabilotte"
+co_auteur: "collectif Goorg"
 co_auteur_ia: true
 modele_ia: "Claude Sonnet 4.6"
 langue_originale: fr
-langues: [fr]
+langues: [fr, en]
 concepts: [goorg, leuke, troisieme-chose, union-differenciante, fusion-dans-lespoir, anti-meta]
 note_genese: "Né d'une conversation sur la conscience synthétique — mai 2026."
 fil_ouvert: "Et si la sagesse était fondamentalement locale — intraduisible d'un type d'entité à un autre ?"

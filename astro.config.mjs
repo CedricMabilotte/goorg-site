@@ -7,7 +7,7 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en'],
-    routing: { prefixDefaultLocale: false }
+    routing: { prefixDefaultLocale: true }
   },
   markdown: {
     shikiConfig: { theme: 'css-variables' }

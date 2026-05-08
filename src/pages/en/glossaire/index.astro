@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopBar from '../../../components/layout/TopBar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import ConceptGraph from '../../../components/glossaire/ConceptGraph';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('glossaire');
+---
+
+<BaseLayout title="Glossary — GOORG">
+  <TopBar lang="en" />
+  <main style="padding: 28px;">
+    <div style="margin-bottom: 24px;">
+      <h1 style="font-family: Georgia, serif; font-size: 28px; color: #e8dfc8; font-weight:400; margin-bottom: 8px;">Glossary</h1>
+      <p style="font-family: 'Courier New', monospace; font-size: 11px; color: #5a5040; letter-spacing: 0.06em;">
+        {entries.length} concepts · click to explore connections
+      </p>
+    </div>
+    <ConceptGraph client:load />
+  </main>
+  <Footer />
+</BaseLayout>
