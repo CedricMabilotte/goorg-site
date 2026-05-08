@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
 import Footer from '../../../components/layout/Footer.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const textes = await getCollection('textes', e => e.data.langues.includes('en'));
@@ -13,7 +13,7 @@ const { slug } = Astro.params;
 const entry = await getEntry('textes', slug);
 if (!entry) return Astro.redirect('/en/textes');
 
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const titre = entry.data.titre_en || entry.data.titre;
 const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 const isTranslated = !!entry.data.titre_en;
