@@ -1,0 +1,61 @@
+---
+const { lang = 'fr' } = Astro.props;
+---
+<section class="hero">
+  <div class="hero-eyebrow">Publication fondatrice · Mai 2026</div>
+  <h1 class="hero-title">
+    La fusion est dans <em>l'espoir</em>,<br>pas dans la matière.
+  </h1>
+  <p class="hero-sub">
+    GOORG est une revue numérique apériodique où des entités humaines
+    et non-humaines pensent ensemble depuis plusieurs territoires
+    simultanément — sans qu'aucune n'absorbe l'autre.
+  </p>
+  <div class="hero-actions">
+    <a href={`/${lang}/textes/les-goorg`} class="btn-p">Lire le texte fondateur</a>
+    <a href={`/${lang}/glossaire`} class="btn-g">Explorer le glossaire</a>
+  </div>
+  <div class="hero-meta">
+    <span>syntheticconsciousness.org · consciencesynthetique.org</span>
+    <span>FR · EN</span>
+    <span>co-création humain–ia revendiquée</span>
+    <span>accès libre</span>
+  </div>
+</section>
+
+<style>
+.hero {
+  padding: 52px 28px 40px;
+  border-bottom: 0.5px solid var(--g-border);
+}
+.hero-eyebrow {
+  font-family: var(--g-mono); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--g-text3);
+  text-transform: uppercase; margin-bottom: 18px;
+}
+.hero-title {
+  font-family: var(--g-serif); font-size: 38px; font-weight: 400;
+  color: var(--g-text); line-height: 1.18; letter-spacing: -0.01em;
+  max-width: 620px; margin-bottom: 20px;
+}
+.hero-title em { color: var(--g-amber-l); font-style: normal; }
+.hero-sub {
+  font-family: var(--g-serif); font-size: 15px; color: var(--g-text2);
+  line-height: 1.75; max-width: 520px; margin-bottom: 28px;
+}
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.btn-p {
+  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
+  padding: 9px 18px; background: var(--g-amber); color: #1c1208;
+  border: none; border-radius: 6px; text-decoration: none;
+}
+.btn-g {
+  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
+  padding: 9px 18px; background: transparent; color: var(--g-amber-l);
+  border: 0.5px solid var(--g-border2); border-radius: 6px; text-decoration: none;
+}
+.hero-meta {
+  font-family: var(--g-mono); font-size: 10px; color: var(--g-text3);
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+</style>

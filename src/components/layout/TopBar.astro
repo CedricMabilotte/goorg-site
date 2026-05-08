@@ -1,0 +1,69 @@
+---
+const { lang = 'fr' } = Astro.props;
+const nav = [
+  { key: 'flux', href: '/' },
+  { key: 'textes', href: `/${lang}/textes` },
+  { key: 'transits', href: `/${lang}/transits` },
+  { key: 'résonances', href: `/${lang}/resonances` },
+  { key: 'glossaire', href: `/${lang}/glossaire` },
+  { key: 'corpus', href: `/${lang}/corpus` },
+];
+const current = Astro.url.pathname;
+---
+<header class="topbar">
+  <a href="/" class="logo">
+    GOORG
+    <small>revue de pensée hybride</small>
+  </a>
+  <nav class="nav">
+    {nav.map(item => (
+      <a href={item.href} class={`ni ${current === item.href ? 'on' : ''}`}>
+        {item.key}
+      </a>
+    ))}
+  </nav>
+  <div class="lang">
+    <a href="/fr" class={`lb ${lang === 'fr' ? 'on' : ''}`}>FR</a>
+    <a href="/en" class={`lb ${lang === 'en' ? 'on' : ''}`}>EN</a>
+  </div>
+</header>
+
+<style>
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px; border-bottom: 0.5px solid var(--g-border);
+  gap: 12px; flex-wrap: wrap;
+}
+.logo {
+  font-family: var(--g-mono); font-size: 15px;
+  letter-spacing: 0.22em; color: var(--g-amber-l); text-decoration: none;
+}
+.logo small {
+  display: block; font-size: 9px; letter-spacing: 0.1em;
+  color: var(--g-text3); margin-top: 2px;
+}
+.nav {
+  display: flex; gap: 0; border: 0.5px solid var(--g-border);
+  border-radius: 6px; overflow: hidden;
+}
+.ni {
+  font-family: var(--g-mono); font-size: 10px; letter-spacing: 0.06em;
+  padding: 7px 12px; color: var(--g-text3);
+  border-right: 0.5px solid var(--g-border);
+  text-decoration: none; transition: color .15s, background .15s;
+}
+.ni:last-child { border-right: none; }
+.ni.on { color: var(--g-amber-l); background: rgba(186,117,23,0.08); }
+.ni:hover { color: var(--g-text2); }
+.lang {
+  display: flex; border: 0.5px solid var(--g-border);
+  border-radius: 6px; overflow: hidden;
+}
+.lb {
+  font-family: var(--g-mono); font-size: 10px; letter-spacing: 0.08em;
+  padding: 7px 10px; color: var(--g-text3);
+  border-right: 0.5px solid var(--g-border); text-decoration: none;
+}
+.lb:last-child { border-right: none; }
+.lb.on { color: var(--g-amber-l); background: rgba(186,117,23,0.08); }
+</style>

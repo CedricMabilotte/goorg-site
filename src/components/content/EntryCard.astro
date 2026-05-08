@@ -1,0 +1,88 @@
+---
+interface Props {
+  type: 'texte' | 'transit' | 'resonance';
+  titre?: string;
+  extrait: string;
+  date: string;
+  auteur?: string;
+  co_auteur_ia?: boolean;
+  langues?: string[];
+  slug: string;
+  lang?: string;
+}
+const { type, titre, extrait, date, auteur, co_auteur_ia, langues = ['fr'], slug, lang = 'fr' } = Astro.props;
+const section = type === 'resonance' ? 'resonances' : `${type}s`;
+---
+
+{type === 'transit' ? (
+  <article class="transit-entry" data-type="transit">
+    <div class="transit-date">{date} · Transit</div>
+    <div class="transit-text">{extrait}</div>
+  </article>
+) : (
+  <article class="entry" data-type={type}>
+    <div class="entry-top">
+      <span class={`badge badge-${type}`}>{type === 'resonance' ? 'Résonance' : type.charAt(0).toUpperCase() + type.slice(1)}</span>
+      {co_auteur_ia && <span class="badge badge-ia">Co-auteur IA</span>}
+      <span class="entry-date">{date}</span>
+    </div>
+    <a href={`/${lang}/${section}/${slug}`} class="entry-link">
+      <div class="entry-title">{titre}</div>
+    </a>
+    <div class="entry-body">{extrait}</div>
+    <div class="entry-footer">
+      {auteur && (
+        <div class="entry-author">
+          <div class="author-dot">{co_auteur_ia ? '⚙' : '◉'}</div>
+          <span class="author-name">{auteur}</span>
+        </div>
+      )}
+      <div class="entry-langs">
+        {langues.map(l => <span class="lang-dot">{l.toUpperCase()}</span>)}
+      </div>
+    </div>
+  </article>
+)}
+
+<style>
+.entry {
+  padding: 22px 28px; border-bottom: 0.5px solid var(--g-border);
+  transition: background .15s;
+}
+.entry:hover { background: var(--g-bg2); }
+.entry-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; flex-wrap: wrap;
+}
+.entry-date { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); margin-left: auto; }
+.entry-link { text-decoration: none; }
+.entry-title {
+  font-family: var(--g-serif); font-size: 18px; color: var(--g-text);
+  line-height: 1.3; margin-bottom: 8px;
+}
+.entry-body {
+  font-family: var(--g-serif); font-size: 13px; color: var(--g-text2);
+  line-height: 1.68; margin-bottom: 12px;
+}
+.entry-footer { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.entry-author { display: flex; align-items: center; gap: 7px; }
+.author-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--g-bg3); border: 0.5px solid var(--g-border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--g-amber-l);
+}
+.author-name { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); }
+.entry-langs { display: flex; gap: 4px; }
+.lang-dot {
+  font-family: var(--g-mono); font-size: 9px; padding: 2px 6px;
+  border: 0.5px solid var(--g-border); border-radius: 3px; color: var(--g-text3);
+}
+.transit-entry {
+  padding: 16px 28px; border-bottom: 0.5px solid var(--g-border);
+  border-left: 2px solid var(--g-amber); transition: background .15s;
+}
+.transit-entry:hover { background: var(--g-bg2); }
+.transit-date { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); margin-bottom: 6px; }
+.transit-text { font-family: var(--g-serif); font-size: 14px; color: var(--g-text2); line-height: 1.65; font-style: italic; }
+</style>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopBar from '../components/layout/TopBar.astro';
+import Hero from '../components/layout/Hero.astro';
+import EntryCard from '../components/content/EntryCard.astro';
+import Sidebar from '../components/layout/Sidebar.astro';
+import Footer from '../components/layout/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const textes    = await getCollection('textes',    e => e.data.publie);
+const transits  = await getCollection('transits',  e => e.data.publie);
+const resonances = await getCollection('resonances', e => e.data.publie);
+
+const all = [...textes, ...transits, ...resonances]
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout>
+  <TopBar />
+  <Hero />
+  <div class="main">
+    <main class="feed">
+      <div class="feed-header">
+        <span class="feed-title">Flux récent</span>
+        <div class="filter-row">
+          <button class="filter on" data-filter="all">tout</button>
+          <button class="filter" data-filter="texte">textes</button>
+          <button class="filter" data-filter="transit">transits</button>
+          <button class="filter" data-filter="resonance">résonances</button>
+        </div>
+      </div>
+      {all.map(entry => (
+        <EntryCard
+          type={entry.data.type as 'texte' | 'transit' | 'resonance'}
+          titre={'titre' in entry.data ? entry.data.titre : undefined}
+          extrait={entry.data.extrait || entry.body.slice(0, 220) + '…'}
+          date={entry.data.date.toLocaleDateString('fr-FR')}
+          auteur={'auteur' in entry.data ? entry.data.auteur : undefined}
+          co_auteur_ia={entry.data.co_auteur_ia}
+          langues={entry.data.langues}
+          slug={entry.slug}
+        />
+      ))}
+      {all.length === 0 && (
+        <div class="empty">
+          <p>La revue s'ouvre.</p>
+          <p class="empty-sub">Les premiers textes arrivent bientôt.</p>
+        </div>
+      )}
+    </main>
+    <Sidebar />
+  </div>
+  <Footer />
+</BaseLayout>
+
+<style>
+.main {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+}
+@media (max-width: 720px) { .main { grid-template-columns: 1fr; } }
+.feed { border-right: 0.5px solid var(--g-border); }
+.feed-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 28px 14px; border-bottom: 0.5px solid var(--g-border);
+}
+.feed-title {
+  font-family: var(--g-mono); font-size: 10px;
+  letter-spacing: 0.12em; color: var(--g-text3); text-transform: uppercase;
+}
+.filter-row { display: flex; gap: 6px; }
+.filter {
+  font-family: var(--g-mono); font-size: 9px; letter-spacing: 0.07em;
+  padding: 4px 9px; border: 0.5px solid var(--g-border);
+  border-radius: 4px; color: var(--g-text3); cursor: pointer; background: transparent;
+}
+.filter.on {
+  border-color: var(--g-border2); color: var(--g-amber-l);
+  background: rgba(186,117,23,0.08);
+}
+.empty {
+  padding: 52px 28px; text-align: center;
+  font-family: var(--g-serif); color: var(--g-text2);
+}
+.empty-sub { color: var(--g-text3); font-size: 13px; margin-top: 8px; }
+</style>
+
+<script>
+document.querySelectorAll('.filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const filter = (btn as HTMLButtonElement).dataset.filter;
+    document.querySelectorAll<HTMLElement>('.entry, .transit-entry').forEach(el => {
+      if (filter === 'all') { el.style.display = ''; return; }
+      const type = el.classList.contains('transit-entry') ? 'transit' : el.dataset.type;
+      el.style.display = type === filter ? '' : 'none';
+    });
+  });
+});
+</script>
