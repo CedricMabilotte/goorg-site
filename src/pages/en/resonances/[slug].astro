@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopBar from '../../../components/layout/TopBar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const resonances = await getCollection('resonances', e => e.data.langues.includes('en'));
+  return resonances.map(e => ({ params: { slug: e.id } }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('resonances', slug);
+if (!entry) return Astro.redirect('/en/resonances');
+
+const { Content } = await render(entry);
+const titre = entry.data.titre_en || entry.data.titre;
+const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={titre}>
+  <TopBar lang="en" />
+  <article class="res-layout">
+    <header class="res-header">
+      <div class="res-meta-top">
+        <span class="badge badge-resonance">Resonance</span>
+        {entry.data.co_auteur_ia && <span class="badge badge-ia">AI co-author</span>}
+        <span class="res-date">{date}</span>
+      </div>
+      <h1 class="res-title">{titre}</h1>
+      {entry.data.source_titre && (
+        <div class="res-source">
+          <span class="source-label">Source —</span>
+          {entry.data.source_url
+            ? <a href={entry.data.source_url} class="source-link" target="_blank" rel="noopener">{entry.data.source_titre}</a>
+            : <span>{entry.data.source_titre}</span>
+          }
+        </div>
+      )}
+    </header>
+    <div class="res-body"><Content /></div>
+  </article>
+  <Footer />
+</BaseLayout>
+
+<style>
+.res-layout { max-width: 680px; margin: 0 auto; padding: 40px 28px 80px; }
+.res-header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 0.5px solid var(--g-border); }
+.res-meta-top { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.res-date { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); margin-left: auto; }
+.res-title { font-family: var(--g-serif); font-size: 32px; font-weight: 400; color: var(--g-text); line-height: 1.2; margin-bottom: 16px; }
+.res-source { font-family: var(--g-mono); font-size: 11px; color: var(--g-text3); }
+.source-label { color: var(--g-amber); }
+.source-link { color: var(--g-text2); text-decoration: underline; text-underline-offset: 3px; }
+.res-body { font-family: var(--g-serif); font-size: 16px; color: var(--g-text); line-height: 1.8; }
+.res-body :global(p) { margin-bottom: 1.4em; }
+.res-body :global(blockquote) { border-left: 2px solid var(--g-amber); padding-left: 18px; color: var(--g-text2); margin: 1.8em 0; }
+</style>

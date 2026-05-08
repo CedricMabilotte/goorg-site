@@ -22,7 +22,7 @@ const section = type === 'resonance' ? 'resonances' : `${type}s`;
 ) : (
   <article class="entry" data-type={type}>
     <div class="entry-top">
-      <span class={`badge badge-${type}`}>{type === 'resonance' ? 'Résonance' : type.charAt(0).toUpperCase() + type.slice(1)}</span>
+      <span class={`badge badge-${type}`}>{type === 'resonance' ? (lang === 'en' ? 'Resonance' : 'Résonance') : type.charAt(0).toUpperCase() + type.slice(1)}</span>
       {co_auteur_ia && <span class="badge badge-ia">Co-auteur IA</span>}
       <span class="entry-date">{date}</span>
     </div>

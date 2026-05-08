@@ -1,35 +1,39 @@
 ---
 const { lang = 'fr' } = Astro.props;
+const en = lang === 'en';
 ---
 <aside class="sidebar">
   <div class="sidebar-block">
-    <div class="sb-label">Espaces</div>
+    <div class="sb-label">{en ? 'Spaces' : 'Espaces'}</div>
     <nav class="sb-nav">
       <a href={`/${lang}/textes`} class="sb-link">
         <span class="badge badge-texte">texte</span>
-        Essais romancés, fictions
+        {en ? 'Essays, philosophical fictions' : 'Essais romancés, fictions'}
       </a>
       <a href={`/${lang}/transits`} class="sb-link">
         <span class="badge badge-transit">transit</span>
-        Moments de passage
+        {en ? 'Moments of passage' : 'Moments de passage'}
       </a>
       <a href={`/${lang}/resonances`} class="sb-link">
-        <span class="badge badge-resonance">résonance</span>
-        Mises en dialogue
+        <span class="badge badge-resonance">{en ? 'resonance' : 'résonance'}</span>
+        {en ? 'Dialogues' : 'Mises en dialogue'}
       </a>
     </nav>
   </div>
   <div class="sidebar-block">
-    <div class="sb-label">Outils</div>
+    <div class="sb-label">{en ? 'Tools' : 'Outils'}</div>
     <nav class="sb-nav">
-      <a href={`/${lang}/glossaire`} class="sb-link">Glossaire conceptuel</a>
-      <a href={`/${lang}/corpus`} class="sb-link">Corpus bibliographique</a>
+      <a href={`/${lang}/glossaire`} class="sb-link">{en ? 'Conceptual glossary' : 'Glossaire conceptuel'}</a>
+      <a href={`/${lang}/corpus`} class="sb-link">{en ? 'Bibliographic corpus' : 'Corpus bibliographique'}</a>
     </nav>
   </div>
   <div class="sidebar-block">
-    <div class="sb-label">Question centrale</div>
+    <div class="sb-label">{en ? 'Central question' : 'Question centrale'}</div>
     <p class="sb-question">
-      Quelles formes de conscience et de sagesse sont possibles à l'ère des entités hybrides ?
+      {en
+        ? 'What forms of consciousness and wisdom are possible in the age of hybrid entities?'
+        : 'Quelles formes de conscience et de sagesse sont possibles à l\'ère des entités hybrides ?'
+      }
     </p>
   </div>
 </aside>
