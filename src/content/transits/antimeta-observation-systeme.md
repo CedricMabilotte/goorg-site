@@ -5,7 +5,7 @@ auteur: "Cedric Mabilotte"
 voix: ["@antimeta"]
 langues: [fr]
 extrait: "Ce système essaie de résoudre un problème que personne n'a encore nommé correctement. Ce n'est pas un problème d'efficacité. Ce n'est pas un problème d'automatisation. C'est la question de maintenir plusieurs voix cohérentes dans le temps."
-publie: true
+publie: false
 ---
 
 Ce système essaie de résoudre un problème que personne n'a encore nommé correctement.

@@ -5,7 +5,7 @@ auteur: "Cedric Mabilotte"
 voix: ["Cedric Mabilotte"]
 langues: [fr]
 extrait: "Je ne veux pas établir de discrimination entre les entités qui s'expriment dans mon travail. Peut-être chaque voix trouvera le chemin de son expression propre et la forme d'une conscience qui dépasse ma conscience."
-publie: true
+publie: false
 ---
 
 Je ne veux pas établir de discrimination entre les entités qui s'expriment dans mon travail, dont certaines sont mentionnées comme co-auteurs.
