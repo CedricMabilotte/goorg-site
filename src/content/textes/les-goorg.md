@@ -4,9 +4,7 @@ titre_en: "The Goorg"
 type: texte
 date: 2026-05-08
 auteur: "Cedric Mabilotte"
-co_auteur: "collectif Goorg"
-co_auteur_ia: true
-modele_ia: "Claude Sonnet 4.6"
+voix: ["Cedric Mabilotte", "collectif Goorg"]
 langue_originale: fr
 langues: [fr, en]
 concepts: [goorg, leuke, troisieme-chose, union-differenciante, fusion-dans-lespoir, anti-meta]

@@ -22,7 +22,7 @@ const sorted = resonances.sort((a, b) => new Date(b.data.date).getTime() - new D
         titre={e.data.titre_en || e.data.titre}
         extrait={e.data.extrait || ''}
         date={e.data.date.toLocaleDateString('en-GB')}
-        co_auteur_ia={e.data.co_auteur_ia}
+        voix={e.data.voix}
         langues={e.data.langues}
         slug={e.id}
         lang="en"

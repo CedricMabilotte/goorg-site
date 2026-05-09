@@ -26,10 +26,10 @@ const heure = entry.data.heure;
         <span class="badge badge-transit">Transit</span>
         <span class="transit-date">{date}{heure && ` · ${heure}`}</span>
       </div>
-      {entry.data.auteur && (
+      {(entry.data.voix.length > 0 || entry.data.auteur) && (
         <div class="transit-author">
-          <span class="author-dot">{entry.data.co_auteur_ia ? '⚙' : '◉'}</span>
-          <span>{entry.data.auteur}</span>
+          <span class="author-dot">◉</span>
+          <span>{entry.data.voix.length > 0 ? entry.data.voix.join(' · ') : entry.data.auteur}</span>
         </div>
       )}
     </header>

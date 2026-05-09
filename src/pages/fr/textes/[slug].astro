@@ -23,17 +23,13 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
     <header class="texte-header">
       <div class="texte-meta-top">
         <span class="badge badge-texte">Texte</span>
-        {entry.data.co_auteur_ia && <span class="badge badge-ia">Co-auteur IA</span>}
         <span class="texte-date">{date}</span>
       </div>
       <h1 class="texte-title">{entry.data.titre}</h1>
-      {entry.data.auteur && (
+      {(entry.data.voix.length > 0 || entry.data.auteur) && (
         <div class="texte-author">
-          <span class="author-dot">{entry.data.co_auteur_ia ? '⚙' : '◉'}</span>
-          <span>{entry.data.auteur}</span>
-          {entry.data.co_auteur_ia && entry.data.modele_ia && (
-            <span class="texte-model">& {entry.data.modele_ia}</span>
-          )}
+          <span class="author-dot">◉</span>
+          <span>{entry.data.voix.length > 0 ? entry.data.voix.join(' · ') : entry.data.auteur}</span>
         </div>
       )}
       {entry.data.note_genese && (

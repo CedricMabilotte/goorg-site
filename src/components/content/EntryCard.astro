@@ -5,12 +5,12 @@ interface Props {
   extrait: string;
   date: string;
   auteur?: string;
-  co_auteur_ia?: boolean;
+  voix?: string[];
   langues?: string[];
   slug: string;
   lang?: string;
 }
-const { type, titre, extrait, date, auteur, co_auteur_ia, langues = ['fr'], slug, lang = 'fr' } = Astro.props;
+const { type, titre, extrait, date, auteur, voix = [], langues = ['fr'], slug, lang = 'fr' } = Astro.props;
 const section = type === 'resonance' ? 'resonances' : `${type}s`;
 ---
 
@@ -23,7 +23,6 @@ const section = type === 'resonance' ? 'resonances' : `${type}s`;
   <article class="entry" data-type={type}>
     <div class="entry-top">
       <span class={`badge badge-${type}`}>{type === 'resonance' ? (lang === 'en' ? 'Resonance' : 'Résonance') : type.charAt(0).toUpperCase() + type.slice(1)}</span>
-      {co_auteur_ia && <span class="badge badge-ia">Co-auteur IA</span>}
       <span class="entry-date">{date}</span>
     </div>
     <a href={`/${lang}/${section}/${slug}`} class="entry-link">
@@ -31,10 +30,10 @@ const section = type === 'resonance' ? 'resonances' : `${type}s`;
     </a>
     <div class="entry-body">{extrait}</div>
     <div class="entry-footer">
-      {auteur && (
+      {(auteur || voix.length > 0) && (
         <div class="entry-author">
-          <div class="author-dot">{co_auteur_ia ? '⚙' : '◉'}</div>
-          <span class="author-name">{auteur}</span>
+          <div class="author-dot">◉</div>
+          <span class="author-name">{voix.length > 0 ? voix.join(' · ') : auteur}</span>
         </div>
       )}
       <div class="entry-langs">

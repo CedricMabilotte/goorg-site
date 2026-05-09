@@ -23,7 +23,7 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
     <header class="res-header">
       <div class="res-meta-top">
         <span class="badge badge-resonance">Résonance</span>
-        {entry.data.co_auteur_ia && <span class="badge badge-ia">Co-auteur IA</span>}
+        {entry.data.voix.length > 0 && <span class="res-voix">{entry.data.voix.join(' · ')}</span>}
         <span class="res-date">{date}</span>
       </div>
       <h1 class="res-title">{entry.data.titre}</h1>
@@ -54,4 +54,5 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
 .res-body { font-family: var(--g-serif); font-size: 16px; color: var(--g-text); line-height: 1.8; }
 .res-body :global(p) { margin-bottom: 1.4em; }
 .res-body :global(blockquote) { border-left: 2px solid var(--g-amber); padding-left: 18px; color: var(--g-text2); margin: 1.8em 0; }
+.res-voix { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); }
 </style>
