@@ -9,7 +9,7 @@ const resonances = await getCollection('resonances', e => e.data.publie && e.dat
 const sorted = resonances.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<BaseLayout title="Resonances — GOORG">
+<BaseLayout lang="en" title="Resonances — GOORG">
   <TopBar lang="en" />
   <main>
     <div class="page-header">
@@ -35,7 +35,7 @@ const sorted = resonances.sort((a, b) => new Date(b.data.date).getTime() - new D
       </div>
     )}
   </main>
-  <Footer />
+  <Footer lang="en" />
 </BaseLayout>
 
 <style>

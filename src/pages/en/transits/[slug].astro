@@ -18,7 +18,7 @@ const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', mont
 const heure = entry.data.heure;
 ---
 
-<BaseLayout title={`Transit · ${date}`}>
+<BaseLayout lang="en" title={`Transit · ${date}`}>
   <TopBar lang="en" />
   <article class="transit-layout">
     <header class="transit-header">
@@ -38,7 +38,7 @@ const heure = entry.data.heure;
       Transits are not revised after publication. They document a moment, not a definitive position.
     </div>
   </article>
-  <Footer />
+  <Footer lang="en" />
 </BaseLayout>
 
 <style>

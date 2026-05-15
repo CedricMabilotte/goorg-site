@@ -8,7 +8,7 @@ import { getCollection } from 'astro:content';
 const entries = await getCollection('glossaire');
 ---
 
-<BaseLayout title="Glossary — GOORG">
+<BaseLayout lang="en" title="Glossary — GOORG">
   <TopBar lang="en" />
   <main style="padding: 28px;">
     <div style="margin-bottom: 24px;">
@@ -19,5 +19,5 @@ const entries = await getCollection('glossaire');
     </div>
     <ConceptGraph client:load />
   </main>
-  <Footer />
+  <Footer lang="en" />
 </BaseLayout>

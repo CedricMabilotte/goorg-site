@@ -18,7 +18,7 @@ const titre = entry.data.titre_en || entry.data.titre;
 const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<BaseLayout title={titre}>
+<BaseLayout lang="en" title={titre}>
   <TopBar lang="en" />
   <article class="res-layout">
     <header class="res-header">
@@ -40,7 +40,7 @@ const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', mont
     </header>
     <div class="res-body"><Content /></div>
   </article>
-  <Footer />
+  <Footer lang="en" />
 </BaseLayout>
 
 <style>

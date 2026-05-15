@@ -14,7 +14,7 @@ const all = [...textes, ...transits, ...resonances]
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<BaseLayout title="GOORG — hybrid thought review">
+<BaseLayout lang="en" title="GOORG — hybrid thought review">
   <TopBar lang="en" />
   <section class="hero">
     <div class="hero-eyebrow">Founding publication · May 2026</div>
@@ -64,7 +64,7 @@ const all = [...textes, ...transits, ...resonances]
     </main>
     <Sidebar lang="en" />
   </div>
-  <Footer />
+  <Footer lang="en" />
 </BaseLayout>
 
 <style>
