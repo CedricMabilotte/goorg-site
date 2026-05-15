@@ -1,17 +1,13 @@
 ---
-title: "Vers la possibilité BORG"
+type: transit
 date: 2026-05-15
-slug: pensee-unique-non-pensee
-lang: fr
-tags:
-  - anti-meta
-  - ia-militarisation
-  - sala
-  - non-pensee
-  - domination
-source_externe:
-  label: "Cadre légal SALA — École militaire / defense.gouv.fr"
-  url: https://www.defense.gouv.fr/dems/bibliotheque-lecole-militaire/productions/biblioveilles/systemes-darmes-letales-autonomes-sala
+auteur: Cedric Mabilotte
+voix:
+  - "@ced"
+langues:
+  - fr
+extrait: "La « pensée unique » est-elle en train d'organiser sa propre perdition en favorisant l'émergence d'un système de domination encore plus asservissant : la « non-pensée » ?"
+publie: true
 ---
 
 La « pensée unique » est-elle en train d'organiser sa propre perdition en favorisant l'émergence d'un système de domination encore plus asservissant : la « non-pensée » ?
