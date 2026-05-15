@@ -29,33 +29,37 @@ const { lang = 'fr' } = Astro.props;
   border-bottom: 0.5px solid var(--g-border);
 }
 .hero-eyebrow {
-  font-family: var(--g-mono); font-size: 10px;
+  font-family: var(--g-mono); font-size: 12px;
   letter-spacing: 0.14em; color: var(--g-text3);
-  text-transform: uppercase; margin-bottom: 18px;
+  text-transform: uppercase; margin-bottom: 20px;
 }
 .hero-title {
-  font-family: var(--g-serif); font-size: 38px; font-weight: 400;
+  font-family: var(--g-serif); font-size: 44px; font-weight: 400;
   color: var(--g-text); line-height: 1.18; letter-spacing: -0.01em;
-  max-width: 620px; margin-bottom: 20px;
+  max-width: 680px; margin-bottom: 22px;
 }
 .hero-title em { color: var(--g-amber-l); font-style: normal; }
 .hero-sub {
-  font-family: var(--g-serif); font-size: 15px; color: var(--g-text2);
-  line-height: 1.75; max-width: 520px; margin-bottom: 28px;
+  font-family: var(--g-serif); font-size: 17px; color: var(--g-text2);
+  line-height: 1.72; max-width: 560px; margin-bottom: 30px;
 }
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 30px; }
 .btn-p {
-  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
-  padding: 9px 18px; background: var(--g-amber); color: #1c1208;
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
+  padding: 10px 20px; background: var(--g-amber); color: #1c1208;
   border: none; border-radius: 6px; text-decoration: none;
 }
 .btn-g {
-  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
-  padding: 9px 18px; background: transparent; color: var(--g-amber-l);
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
+  padding: 10px 20px; background: transparent; color: var(--g-amber-l);
   border: 0.5px solid var(--g-border2); border-radius: 6px; text-decoration: none;
 }
 .hero-meta {
-  font-family: var(--g-mono); font-size: 10px; color: var(--g-text3);
-  display: flex; gap: 20px; flex-wrap: wrap;
+  font-family: var(--g-mono); font-size: 12px; color: var(--g-text3);
+  display: flex; gap: 22px; flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  .hero { padding: 36px 18px 28px; }
+  .hero-title { font-size: 32px; }
 }
 </style>

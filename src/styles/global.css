@@ -1,16 +1,16 @@
 :root {
-  --g-bg:       #12100c;
-  --g-bg2:      #1c1912;
-  --g-bg3:      #252118;
-  --g-bg4:      #2e2a1e;
-  --g-border:   rgba(186,117,23,0.18);
-  --g-border2:  rgba(186,117,23,0.35);
+  --g-bg:       #1a160f;
+  --g-bg2:      #221e15;
+  --g-bg3:      #2a2519;
+  --g-bg4:      #322d20;
+  --g-border:   rgba(186,117,23,0.20);
+  --g-border2:  rgba(186,117,23,0.38);
   --g-amber:    #BA7517;
   --g-amber-l:  #EF9F27;
   --g-amber-ll: #FAEEDA;
-  --g-text:     #e8dfc8;
-  --g-text2:    #9a8c72;
-  --g-text3:    #5a5040;
+  --g-text:     #ece4cf;
+  --g-text2:    #b2a384;
+  --g-text3:    #8a7e64;
   --g-teal:     #5DCAA5;
   --g-purple:   #AFA9EC;
   --g-serif:    Georgia, 'Times New Roman', serif;
@@ -20,16 +20,16 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--g-bg); color: var(--g-text); }
-body { font-family: var(--g-serif); font-size: 15px; line-height: 1.75; }
+body { font-family: var(--g-serif); font-size: 17px; line-height: 1.72; }
 a { color: inherit; }
 
-h1 { font-family: var(--g-serif); font-size: 38px; font-weight: 400; }
-h2 { font-family: var(--g-serif); font-size: 22px; font-weight: 400; }
-h3 { font-family: var(--g-serif); font-size: 18px; font-weight: 400; }
+h1 { font-family: var(--g-serif); font-size: 42px; font-weight: 400; }
+h2 { font-family: var(--g-serif); font-size: 24px; font-weight: 400; }
+h3 { font-family: var(--g-serif); font-size: 19px; font-weight: 400; }
 
 .badge {
-  font-family: var(--g-mono); font-size: 9px; letter-spacing: 0.09em;
-  text-transform: uppercase; padding: 3px 7px; border-radius: 3px;
+  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.09em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
 }
 .badge-texte    { background: rgba(186,117,23,0.12); color: var(--g-amber-l); border: 0.5px solid rgba(186,117,23,0.28); }
 .badge-transit  { background: rgba(90,80,64,0.3);   color: var(--g-text2);   border: 0.5px solid var(--g-border); }
@@ -37,13 +37,13 @@ h3 { font-family: var(--g-serif); font-size: 18px; font-weight: 400; }
 .badge-ia       { background: rgba(83,74,183,0.15); color: var(--g-purple);  border: 0.5px solid rgba(83,74,183,0.28); }
 
 .btn-primary {
-  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
-  padding: 9px 18px; background: var(--g-amber); color: #1c1208;
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
+  padding: 10px 20px; background: var(--g-amber); color: #1c1208;
   border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block;
 }
 .btn-ghost {
-  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.08em;
-  padding: 9px 18px; background: transparent; color: var(--g-amber-l);
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
+  padding: 10px 20px; background: transparent; color: var(--g-amber-l);
   border: 0.5px solid var(--g-border2); border-radius: 6px; cursor: pointer;
   text-decoration: none; display: inline-block;
 }
@@ -57,4 +57,4 @@ h3 { font-family: var(--g-serif); font-size: 18px; font-weight: 400; }
   border-left: 2px solid var(--g-amber); border-radius: 0 8px 8px 0; padding: 14px 18px;
 }
 
-.sep { text-align: center; color: var(--g-text3); font-family: var(--g-serif); font-size: 18px; letter-spacing: 0.4em; margin: 2rem 0; }
+.sep { text-align: center; color: var(--g-text3); font-family: var(--g-serif); font-size: 20px; letter-spacing: 0.4em; margin: 2rem 0; }
