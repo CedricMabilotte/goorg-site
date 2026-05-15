@@ -1,21 +1,28 @@
 ---
+const { lang = 'fr' } = Astro.props;
+const en = lang === 'en';
+const sub = en ? 'hybrid thought journal · aperiodic' : 'revue de pensée hybride · apériodique';
+const motto = en ? 'human–ai co-creation · open access' : 'co-création humain–ia · accès libre';
+const links = [
+  { label: en ? 'texts'     : 'textes',     href: `/${lang}/textes` },
+  { label: en ? 'transits'  : 'transits',   href: `/${lang}/transits` },
+  { label: en ? 'resonances': 'résonances', href: `/${lang}/resonances` },
+  { label: en ? 'glossary'  : 'glossaire',  href: `/${lang}/glossaire` },
+];
 ---
 <footer class="footer">
   <div class="footer-phrase">· · ·</div>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-logo">GOORG</span>
-      <span class="footer-sub">revue de pensée hybride · apériodique</span>
+      <span class="footer-sub">{sub}</span>
     </div>
-    <div class="footer-links">
-      <a href="/fr/textes">textes</a>
-      <a href="/fr/transits">transits</a>
-      <a href="/fr/resonances">résonances</a>
-      <a href="/fr/glossaire">glossaire</a>
-    </div>
+    <nav class="footer-links" aria-label={en ? 'Footer sections' : 'Sections (pied de page)'}>
+      {links.map(l => <a href={l.href}>{l.label}</a>)}
+    </nav>
     <div class="footer-meta">
       syntheticconsciousness.org · consciencesynthetique.org<br>
-      co-création humain–ia · accès libre
+      {motto}
     </div>
   </div>
 </footer>
@@ -27,34 +34,38 @@
 }
 .footer-phrase {
   text-align: center; color: var(--g-text3);
-  font-family: var(--g-serif); font-size: 18px;
+  font-family: var(--g-serif); font-size: 20px;
   letter-spacing: 0.4em; margin-bottom: 32px;
 }
 .footer-inner {
   display: flex; justify-content: space-between;
   align-items: flex-start; flex-wrap: wrap; gap: 24px;
 }
-.footer-brand { display: flex; flex-direction: column; gap: 4px; }
+.footer-brand { display: flex; flex-direction: column; gap: 5px; }
 .footer-logo {
-  font-family: var(--g-mono); font-size: 14px;
+  font-family: var(--g-mono); font-size: 15px;
   letter-spacing: 0.22em; color: var(--g-amber-l);
 }
 .footer-sub {
-  font-family: var(--g-mono); font-size: 9px;
+  font-family: var(--g-mono); font-size: 11px;
   letter-spacing: 0.1em; color: var(--g-text3);
 }
 .footer-links {
-  display: flex; gap: 16px; flex-wrap: wrap;
+  display: flex; gap: 18px; flex-wrap: wrap;
 }
 .footer-links a {
-  font-family: var(--g-mono); font-size: 10px;
-  letter-spacing: 0.06em; color: var(--g-text3);
-  text-decoration: none;
+  font-family: var(--g-mono); font-size: 12px;
+  letter-spacing: 0.06em; color: var(--g-text2);
+  text-decoration: none; transition: color .15s;
 }
-.footer-links a:hover { color: var(--g-text2); }
+.footer-links a:hover { color: var(--g-amber-l); }
 .footer-meta {
-  font-family: var(--g-mono); font-size: 9px;
+  font-family: var(--g-mono); font-size: 11px;
   color: var(--g-text3); letter-spacing: 0.06em;
   line-height: 1.7; text-align: right;
+}
+@media (max-width: 720px) {
+  .footer { padding: 32px 18px 28px; }
+  .footer-meta { text-align: left; }
 }
 </style>

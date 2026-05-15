@@ -1,69 +1,100 @@
 ---
 const { lang = 'fr' } = Astro.props;
+const en = lang === 'en';
+const tagline = en ? 'hybrid thought journal' : 'revue de pensée hybride';
 const nav = [
-  { key: 'flux', href: '/' },
-  { key: 'textes', href: `/${lang}/textes` },
-  { key: 'transits', href: `/${lang}/transits` },
-  { key: 'résonances', href: `/${lang}/resonances` },
-  { key: 'glossaire', href: `/${lang}/glossaire` },
-  { key: 'corpus', href: `/${lang}/corpus` },
+  { label: en ? 'feed'      : 'flux',       href: `/${lang}`,              isHome: true  },
+  { label: en ? 'texts'     : 'textes',     href: `/${lang}/textes`,       isHome: false },
+  { label: en ? 'transits'  : 'transits',   href: `/${lang}/transits`,     isHome: false },
+  { label: en ? 'resonances': 'résonances', href: `/${lang}/resonances`,   isHome: false },
+  { label: en ? 'glossary'  : 'glossaire',  href: `/${lang}/glossaire`,    isHome: false },
+  { label: en ? 'corpus'    : 'corpus',     href: `/${lang}/corpus`,       isHome: false },
 ];
 const current = Astro.url.pathname;
+const isActive = (href: string, isHome: boolean) => {
+  if (isHome) return current === href || current === `${href}/`;
+  return current === href || current.startsWith(`${href}/`);
+};
 ---
+<a href="#main" class="skip-link">{en ? 'Skip to content' : 'Aller au contenu'}</a>
 <header class="topbar">
-  <a href="/" class="logo">
+  <a href={`/${lang}`} class="logo" aria-label={en ? 'GOORG — home' : 'GOORG — accueil'}>
     GOORG
-    <small>revue de pensée hybride</small>
+    <small>{tagline}</small>
   </a>
-  <nav class="nav">
-    {nav.map(item => (
-      <a href={item.href} class={`ni ${current === item.href ? 'on' : ''}`}>
-        {item.key}
-      </a>
-    ))}
+  <nav class="nav" aria-label={en ? 'Sections' : 'Sections'}>
+    {nav.map(item => {
+      const active = isActive(item.href, item.isHome);
+      return (
+        <a
+          href={item.href}
+          class={`ni ${active ? 'on' : ''}`}
+          aria-current={active ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      );
+    })}
   </nav>
-  <div class="lang">
-    <a href="/fr" class={`lb ${lang === 'fr' ? 'on' : ''}`}>FR</a>
-    <a href="/en" class={`lb ${lang === 'en' ? 'on' : ''}`}>EN</a>
+  <div class="lang" aria-label={en ? 'Language' : 'Langue'}>
+    <a href="/fr" class={`lb ${lang === 'fr' ? 'on' : ''}`} aria-current={lang === 'fr' ? 'true' : undefined}>FR</a>
+    <a href="/en" class={`lb ${lang === 'en' ? 'on' : ''}`} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
   </div>
 </header>
 
 <style>
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  font-family: var(--g-mono); font-size: 12px; padding: 8px 14px;
+  background: var(--g-amber); color: #1c1208; text-decoration: none; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 28px; border-bottom: 0.5px solid var(--g-border);
-  gap: 12px; flex-wrap: wrap;
+  padding: 18px 28px; border-bottom: 0.5px solid var(--g-border);
+  gap: 16px; flex-wrap: wrap;
 }
 .logo {
-  font-family: var(--g-mono); font-size: 15px;
+  font-family: var(--g-mono); font-size: 16px;
   letter-spacing: 0.22em; color: var(--g-amber-l); text-decoration: none;
 }
 .logo small {
-  display: block; font-size: 9px; letter-spacing: 0.1em;
-  color: var(--g-text3); margin-top: 2px;
+  display: block; font-size: 11px; letter-spacing: 0.1em;
+  color: var(--g-text3); margin-top: 3px;
 }
 .nav {
   display: flex; gap: 0; border: 0.5px solid var(--g-border);
   border-radius: 6px; overflow: hidden;
 }
 .ni {
-  font-family: var(--g-mono); font-size: 10px; letter-spacing: 0.06em;
-  padding: 7px 12px; color: var(--g-text3);
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.06em;
+  padding: 8px 14px; color: var(--g-text2);
   border-right: 0.5px solid var(--g-border);
   text-decoration: none; transition: color .15s, background .15s;
 }
 .ni:last-child { border-right: none; }
-.ni.on { color: var(--g-amber-l); background: rgba(186,117,23,0.08); }
-.ni:hover { color: var(--g-text2); }
+.ni.on { color: var(--g-amber-l); background: rgba(186,117,23,0.10); }
+.ni:hover { color: var(--g-text); background: rgba(186,117,23,0.05); }
+.ni:focus-visible { outline: 1px solid var(--g-amber-l); outline-offset: 2px; }
 .lang {
   display: flex; border: 0.5px solid var(--g-border);
   border-radius: 6px; overflow: hidden;
 }
 .lb {
-  font-family: var(--g-mono); font-size: 10px; letter-spacing: 0.08em;
-  padding: 7px 10px; color: var(--g-text3);
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
+  padding: 8px 12px; color: var(--g-text2);
   border-right: 0.5px solid var(--g-border); text-decoration: none;
 }
 .lb:last-child { border-right: none; }
-.lb.on { color: var(--g-amber-l); background: rgba(186,117,23,0.08); }
+.lb.on { color: var(--g-amber-l); background: rgba(186,117,23,0.10); }
+.lb:hover { color: var(--g-text); }
+.lb:focus-visible { outline: 1px solid var(--g-amber-l); outline-offset: 2px; }
+
+@media (max-width: 720px) {
+  .topbar { padding: 14px 18px; gap: 12px; }
+  .logo { font-size: 15px; }
+  .nav { width: 100%; flex-wrap: wrap; border-radius: 6px; }
+  .ni { flex: 1 1 auto; text-align: center; padding: 9px 8px; font-size: 11px; }
+  .lang { margin-left: auto; }
+}
 </style>
