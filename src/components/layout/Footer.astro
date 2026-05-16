@@ -1,4 +1,5 @@
 ---
+import Separator from '../identity/Separator.astro';
 const { lang = 'fr' } = Astro.props;
 const en = lang === 'en';
 const sub = en ? 'hybrid thought journal · aperiodic' : 'revue de pensée hybride · apériodique';
@@ -11,7 +12,7 @@ const links = [
 ];
 ---
 <footer class="footer">
-  <div class="footer-phrase">· · ·</div>
+  <div class="footer-phrase"><Separator variant="full" /></div>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-logo">GOORG</span>
@@ -33,9 +34,7 @@ const links = [
   padding: 40px 28px 32px;
 }
 .footer-phrase {
-  text-align: center; color: var(--g-text3);
-  font-family: var(--g-serif); font-size: 20px;
-  letter-spacing: 0.4em; margin-bottom: 32px;
+  margin-bottom: 32px;
 }
 .footer-inner {
   display: flex; justify-content: space-between;

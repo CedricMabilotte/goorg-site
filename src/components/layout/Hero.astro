@@ -1,25 +1,36 @@
 ---
+import Hypercubestar from '../identity/Hypercubestar.astro';
 const { lang = 'fr' } = Astro.props;
+const en = lang === 'en';
 ---
 <section class="hero">
-  <div class="hero-eyebrow">Publication fondatrice · Mai 2026</div>
-  <h1 class="hero-title">
-    La fusion est dans <em>l'espoir</em>,<br>pas dans la matière.
-  </h1>
-  <p class="hero-sub">
-    GOORG est une revue numérique apériodique où des entités humaines
-    et non-humaines pensent ensemble depuis plusieurs territoires
-    simultanément — sans qu'aucune n'absorbe l'autre.
-  </p>
-  <div class="hero-actions">
-    <a href={`/${lang}/textes/les-goorg`} class="btn-p">Lire le texte fondateur</a>
-    <a href={`/${lang}/glossaire`} class="btn-g">Explorer le glossaire</a>
-  </div>
-  <div class="hero-meta">
-    <span>syntheticconsciousness.org · consciencesynthetique.org</span>
-    <span>FR · EN</span>
-    <span>co-création humain–ia revendiquée</span>
-    <span>accès libre</span>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-eyebrow">{en ? 'Founding publication · May 2026' : 'Publication fondatrice · Mai 2026'}</div>
+      {en ? (
+        <h1 class="hero-title">Fusion lies in <em>hope</em>,<br>not in matter.</h1>
+      ) : (
+        <h1 class="hero-title">La fusion est dans <em>l'espoir</em>,<br>pas dans la matière.</h1>
+      )}
+      <p class="hero-sub">
+        {en
+          ? 'GOORG is an aperiodic digital journal where human and non-human entities think together from several territories simultaneously — without any one of them absorbing the other.'
+          : "GOORG est une revue numérique apériodique où des entités humaines et non-humaines pensent ensemble depuis plusieurs territoires simultanément — sans qu'aucune n'absorbe l'autre."}
+      </p>
+      <div class="hero-actions">
+        <a href={`/${lang}/textes/les-goorg`} class="btn-p">{en ? 'Read the founding text' : 'Lire le texte fondateur'}</a>
+        <a href={`/${lang}/glossaire`} class="btn-g">{en ? 'Explore the glossary' : 'Explorer le glossaire'}</a>
+      </div>
+      <div class="hero-meta">
+        <span>syntheticconsciousness.org · consciencesynthetique.org</span>
+        <span>FR · EN</span>
+        <span>{en ? 'human–ai co-creation claimed' : 'co-création humain–ia revendiquée'}</span>
+        <span>{en ? 'open access' : 'accès libre'}</span>
+      </div>
+    </div>
+    <div class="hero-mark">
+      <Hypercubestar size={260} variant="default" decorative={true} />
+    </div>
   </div>
 </section>
 
@@ -27,6 +38,20 @@ const { lang = 'fr' } = Astro.props;
 .hero {
   padding: 52px 28px 40px;
   border-bottom: 0.5px solid var(--g-border);
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  max-width: 1200px;
+}
+.hero-text { min-width: 0; }
+.hero-mark {
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.92;
 }
 .hero-eyebrow {
   font-family: var(--g-mono); font-size: 12px;
@@ -58,8 +83,13 @@ const { lang = 'fr' } = Astro.props;
   font-family: var(--g-mono); font-size: 12px; color: var(--g-text3);
   display: flex; gap: 22px; flex-wrap: wrap;
 }
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  .hero-mark { justify-content: flex-start; opacity: 0.7; }
+}
 @media (max-width: 720px) {
   .hero { padding: 36px 18px 28px; }
   .hero-title { font-size: 32px; }
+  .hero-mark :global(svg) { width: 180px; height: 180px; }
 }
 </style>
