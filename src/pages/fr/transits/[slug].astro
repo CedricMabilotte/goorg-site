@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
+import ReadingProgress from '../../../components/identity/ReadingProgress.astro';
 import Footer from '../../../components/layout/Footer.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 
@@ -20,6 +21,7 @@ const heure = entry.data.heure;
 
 <BaseLayout title={`Transit · ${date}`}>
   <TopBar lang="fr" />
+  <ReadingProgress />
   <article class="transit-layout">
     <header class="transit-header">
       <div class="transit-meta">
@@ -38,7 +40,7 @@ const heure = entry.data.heure;
       Les transits ne sont pas révisés après publication. Ils témoignent d'un moment, pas d'une position définitive.
     </div>
   </article>
-  <Footer lang="fr" />
+  <Footer lang="fr" membrane="poreuse" />
 </BaseLayout>
 
 <style>

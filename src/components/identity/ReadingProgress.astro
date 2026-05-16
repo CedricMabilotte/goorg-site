@@ -1,0 +1,70 @@
+---
+/**
+ * ReadingProgress — barre fine ambre en haut de page qui se remplit
+ * au scroll. Cinq sommets (0/25/50/75/100%) s'allument au passage,
+ * évoquant la traversée des sommets d'un hypercube pendant la lecture.
+ */
+---
+<div class="rp" aria-hidden="true">
+  <div class="rp-track"></div>
+  <div class="rp-fill"></div>
+  <div class="rp-dot" data-pos="0"></div>
+  <div class="rp-dot" data-pos="25"></div>
+  <div class="rp-dot" data-pos="50"></div>
+  <div class="rp-dot" data-pos="75"></div>
+  <div class="rp-dot" data-pos="100"></div>
+</div>
+<style>
+.rp {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 90;
+  pointer-events: none;
+}
+.rp-track {
+  position: absolute; inset: 0;
+  background: rgba(186,117,23,0.10);
+}
+.rp-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--g-amber) 0%, var(--g-amber-l) 100%);
+  transition: width 0.12s linear;
+}
+.rp-dot {
+  position: absolute; top: -2px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--g-amber-l);
+  border: 0.5px solid var(--g-amber);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  transform: translateX(-50%);
+}
+.rp-dot[data-pos="0"]   { left: 0;    transform: translateX(0); }
+.rp-dot[data-pos="25"]  { left: 25%; }
+.rp-dot[data-pos="50"]  { left: 50%; }
+.rp-dot[data-pos="75"]  { left: 75%; }
+.rp-dot[data-pos="100"] { left: auto; right: 0; transform: translateX(0); }
+.rp-dot.active { opacity: 1; }
+</style>
+<script is:inline>
+(function () {
+  const fill = document.querySelector('.rp-fill');
+  const dots = Array.from(document.querySelectorAll('.rp-dot'));
+  if (!fill || dots.length === 0) return;
+  function update() {
+    const h = document.documentElement;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? (h.scrollTop / total) * 100 : 0;
+    fill.style.width = pct.toFixed(2) + '%';
+    dots.forEach((d) => {
+      const pos = parseInt(d.dataset.pos || '0', 10);
+      if (pct >= pos - 0.5) d.classList.add('active');
+      else d.classList.remove('active');
+    });
+  }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+})();
+</script>

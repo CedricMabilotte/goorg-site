@@ -1,8 +1,22 @@
 ---
 import Separator from '../identity/Separator.astro';
-const { lang = 'fr' } = Astro.props;
+import { getCollection } from 'astro:content';
+
+interface Props {
+  lang?: string;
+  /**
+   * État de la membrane selon la nature de la page :
+   *  - stable    : index / pages neutres
+   *  - active    : pages résonance (la membrane est explicitement travaillée)
+   *  - poreuse   : transits (passage en cours)
+   *  - originaire: textes fondateurs
+   *  - tissée    : pages glossaire (le réseau)
+   */
+  membrane?: 'stable' | 'active' | 'poreuse' | 'originaire' | 'tissée';
+}
+const { lang = 'fr', membrane = 'stable' } = Astro.props;
 const en = lang === 'en';
-const sub = en ? 'hybrid thought journal · aperiodic' : 'revue de pensée hybride · apériodique';
+const sub   = en ? 'hybrid thought journal · aperiodic' : 'revue de pensée hybride · apériodique';
 const motto = en ? 'human–ai co-creation · open access' : 'co-création humain–ia · accès libre';
 const links = [
   { label: en ? 'texts'     : 'textes',     href: `/${lang}/textes` },
@@ -10,9 +24,48 @@ const links = [
   { label: en ? 'resonances': 'résonances', href: `/${lang}/resonances` },
   { label: en ? 'glossary'  : 'glossaire',  href: `/${lang}/glossaire` },
 ];
+
+// Compteurs (build-time)
+const textes     = await getCollection('textes',     e => e.data.publie);
+const transits   = await getCollection('transits',   e => e.data.publie);
+const resonances = await getCollection('resonances', e => e.data.publie);
+const glossaire  = await getCollection('glossaire');
+
+const membraneLabel: Record<string, { fr: string; en: string }> = {
+  stable:     { fr: 'stable',     en: 'stable' },
+  active:     { fr: 'active',     en: 'active' },
+  poreuse:    { fr: 'poreuse',    en: 'porous' },
+  originaire: { fr: 'originaire', en: 'originary' },
+  'tissée':   { fr: 'tissée',     en: 'woven' },
+};
+const mLabel = membraneLabel[membrane][en ? 'en' : 'fr'];
 ---
 <footer class="footer">
   <div class="footer-phrase"><Separator variant="full" /></div>
+
+  <div class="status">
+    <div class="status-cell">
+      <span class="status-key">{en ? 'system' : 'système'}</span>
+      <span class="status-val"><time id="g-clock" datetime="">--:--:--</time> <span class="status-unit">UTC</span></span>
+    </div>
+    <div class="status-cell">
+      <span class="status-key">{en ? 'membrane' : 'membrane'}</span>
+      <span class="status-val membrane-val">{mLabel}<span class="status-dot g-pulse"></span></span>
+    </div>
+    <div class="status-cell status-counts">
+      <span class="status-key">{en ? 'corpus' : 'corpus'}</span>
+      <span class="status-val">
+        <span class="count">{glossaire.length}</span><span class="count-label">{en ? 'concepts' : 'concepts'}</span>
+        <span class="count-sep">·</span>
+        <span class="count">{transits.length}</span><span class="count-label">{en ? 'transits' : 'transits'}</span>
+        <span class="count-sep">·</span>
+        <span class="count">{resonances.length}</span><span class="count-label">{en ? 'resonances' : 'résonances'}</span>
+        <span class="count-sep">·</span>
+        <span class="count">{textes.length}</span><span class="count-label">{en ? 'texts' : 'textes'}</span>
+      </span>
+    </div>
+  </div>
+
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-logo">GOORG</span>
@@ -30,41 +83,95 @@ const links = [
 
 <style>
 .footer {
-  border-top: 0.5px solid var(--g-border);
-  padding: 40px 28px 32px;
+  border-top: var(--b-thin) solid var(--g-border);
+  padding: var(--sp-8) var(--sp-7) var(--sp-7);
 }
-.footer-phrase {
-  margin-bottom: 32px;
+.footer-phrase { margin-bottom: var(--sp-7); }
+
+/* — Console de statut — */
+.status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-3) var(--sp-7);
+  padding: var(--sp-4) var(--sp-4);
+  margin-bottom: var(--sp-7);
+  border: var(--b-thin) solid var(--g-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, rgba(186,117,23,0.04) 0%, transparent 50%);
 }
+.status-cell { display: flex; flex-direction: column; gap: 4px; }
+.status-counts { grid-column: span 2; }
+@media (max-width: 720px) { .status-counts { grid-column: span 1; } }
+
+.status-key {
+  font-family: var(--g-mono); font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label); color: var(--g-text3);
+  text-transform: uppercase;
+}
+.status-val {
+  font-family: var(--g-mono); font-size: var(--fs-md);
+  letter-spacing: var(--ls-mono); color: var(--g-text);
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.status-unit { color: var(--g-text3); font-size: var(--fs-xs); }
+.membrane-val { color: var(--g-amber-l); }
+.status-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--g-amber-l);
+  box-shadow: 0 0 0 0 rgba(244,177,68,0.0);
+}
+.count { color: var(--g-amber-l); font-size: var(--fs-md); }
+.count-label { color: var(--g-text2); font-size: var(--fs-xs); margin-left: 2px; }
+.count-sep { color: var(--g-text3); margin: 0 4px; }
+
 .footer-inner {
   display: flex; justify-content: space-between;
-  align-items: flex-start; flex-wrap: wrap; gap: 24px;
+  align-items: flex-start; flex-wrap: wrap; gap: var(--sp-6);
 }
 .footer-brand { display: flex; flex-direction: column; gap: 5px; }
 .footer-logo {
   font-family: var(--g-mono); font-size: 15px;
-  letter-spacing: 0.22em; color: var(--g-amber-l);
+  letter-spacing: var(--ls-title); color: var(--g-amber-l);
 }
 .footer-sub {
   font-family: var(--g-mono); font-size: var(--fs-xs);
   letter-spacing: 0.1em; color: var(--g-text2);
 }
-.footer-links {
-  display: flex; gap: 18px; flex-wrap: wrap;
-}
+.footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
 .footer-links a {
   font-family: var(--g-mono); font-size: var(--fs-sm);
-  letter-spacing: 0.06em; color: var(--g-text);
+  letter-spacing: var(--ls-mono); color: var(--g-text);
   text-decoration: none; transition: color .15s;
 }
 .footer-links a:hover { color: var(--g-amber-l); }
 .footer-meta {
   font-family: var(--g-mono); font-size: var(--fs-xs);
-  color: var(--g-text2); letter-spacing: 0.06em;
-  line-height: 1.7; text-align: right;
+  color: var(--g-text2); letter-spacing: var(--ls-mono);
+  line-height: var(--lh-loose); text-align: right;
 }
 @media (max-width: 720px) {
-  .footer { padding: 32px 18px 28px; }
+  .footer { padding: var(--sp-7) var(--sp-4) var(--sp-6); }
   .footer-meta { text-align: left; }
 }
 </style>
+
+<script is:inline>
+(function () {
+  const clock = document.getElementById('g-clock');
+  if (!clock) return;
+  function tick() {
+    const d = new Date();
+    const hh = String(d.getUTCHours()).padStart(2, '0');
+    const mm = String(d.getUTCMinutes()).padStart(2, '0');
+    const ss = String(d.getUTCSeconds()).padStart(2, '0');
+    const t = hh + ':' + mm + ':' + ss;
+    clock.textContent = t;
+    clock.setAttribute('datetime', d.toISOString());
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>

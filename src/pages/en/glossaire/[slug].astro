@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
+import ReadingProgress from '../../../components/identity/ReadingProgress.astro';
 import Footer from '../../../components/layout/Footer.astro';
 import Hypercubestar from '../../../components/identity/Hypercubestar.astro';
 import { getCollection } from 'astro:content';
@@ -29,6 +30,7 @@ const definition = entry.data.definition_en ?? entry.data.definition;
 ---
 <BaseLayout lang="en" title={title} description={definition}>
   <TopBar lang="en" />
+  <ReadingProgress />
   <article class="concept">
     <header class="concept-head">
       <div class="concept-mark">
@@ -72,7 +74,7 @@ const definition = entry.data.definition_en ?? entry.data.definition;
       </section>
     )}
   </article>
-  <Footer lang="en" />
+  <Footer lang="en" membrane="tissée" />
 </BaseLayout>
 
 <style>
