@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopBar from '../../../components/layout/TopBar.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import Hypercubestar from '../../../components/identity/Hypercubestar.astro';
+import { getCollection } from 'astro:content';
+import { getVariant, CATEGORIE_LABEL_EN, CATEGORIE_COLOR } from '../../../lib/glossaire-variants';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('glossaire');
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props:  { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const variant = getVariant(entry.id);
+const catLabel = CATEGORIE_LABEL_EN[entry.data.categorie] ?? entry.data.categorie;
+const catColor = CATEGORIE_COLOR[entry.data.categorie] ?? '#EF9F27';
+
+const allConcepts = await getCollection('glossaire');
+const lies = entry.data.liens
+  .map(slug => allConcepts.find(c => c.id === slug))
+  .filter((c): c is NonNullable<typeof c> => c !== undefined);
+
+const title = entry.data.terme_en ?? entry.data.terme;
+const definition = entry.data.definition_en ?? entry.data.definition;
+---
+<BaseLayout lang="en" title={title} description={definition}>
+  <TopBar lang="en" />
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-mark">
+        <Hypercubestar size={220} variant={variant} decorative={true} />
+      </div>
+      <div class="concept-meta">
+        <a href="/en/glossaire" class="back">← glossary</a>
+        <div class="cat-tag" style={`color: ${catColor}; border-color: ${catColor}66;`}>{catLabel}</div>
+        <h1 class="concept-titre">{title}</h1>
+        {entry.data.terme_en && entry.data.terme !== entry.data.terme_en && (
+          <div class="concept-titre-en">{entry.data.terme}</div>
+        )}
+      </div>
+    </header>
+
+    <div class="concept-body">
+      <p class="concept-def">{definition}</p>
+    </div>
+
+    {lies.length > 0 && (
+      <section class="concept-liens">
+        <div class="liens-label">Related concepts</div>
+        <div class="liens-list">
+          {lies.map(l => (
+            <a href={`/en/glossaire/${l.id}`} class="lien-btn">
+              → {l.data.terme_en ?? l.data.terme}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {entry.data.references && entry.data.references.length > 0 && (
+      <section class="concept-refs">
+        <div class="liens-label">References</div>
+        <div class="refs-list">
+          {entry.data.references.map(r => (
+            <span class="ref-num">[{r}]</span>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+  <Footer lang="en" />
+</BaseLayout>
+
+<style>
+.concept {
+  max-width: 820px; margin: 0 auto;
+  padding: 40px 28px 56px;
+}
+.concept-head {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 0.5px solid var(--g-border);
+}
+.concept-mark { display: flex; align-items: center; justify-content: center; opacity: 0.95; }
+.concept-meta { display: flex; flex-direction: column; gap: 10px; }
+.back {
+  font-family: var(--g-mono); font-size: 11px;
+  color: var(--g-text3); text-decoration: none;
+  letter-spacing: 0.1em; margin-bottom: 4px;
+  align-self: flex-start;
+}
+.back:hover { color: var(--g-amber-l); }
+.cat-tag {
+  display: inline-block;
+  font-family: var(--g-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 3px 9px; border: 0.5px solid;
+  border-radius: 3px;
+  width: max-content;
+}
+.concept-titre {
+  font-family: var(--g-serif); font-size: 36px; font-weight: 400;
+  color: var(--g-text); line-height: 1.15; letter-spacing: -0.01em;
+}
+.concept-titre-en {
+  font-family: var(--g-serif); font-size: 17px; font-style: italic;
+  color: var(--g-text3);
+}
+.concept-body { margin-bottom: 40px; }
+.concept-def {
+  font-family: var(--g-serif); font-size: 19px;
+  color: var(--g-text); line-height: 1.65;
+}
+.concept-def::first-letter {
+  font-family: var(--g-serif); font-size: 48px;
+  color: var(--g-amber-l); float: left;
+  line-height: 1; padding: 4px 8px 0 0;
+}
+.concept-liens, .concept-refs { margin-top: 32px; }
+.liens-label {
+  font-family: var(--g-mono); font-size: 11px;
+  letter-spacing: 0.14em; color: var(--g-text3);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.liens-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.lien-btn {
+  font-family: var(--g-mono); font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 6px 11px;
+  border: 0.5px solid var(--g-border2);
+  border-radius: 4px;
+  color: var(--g-text2);
+  text-decoration: none;
+  transition: color .15s, background .15s;
+}
+.lien-btn:hover {
+  color: var(--g-amber-l);
+  background: rgba(186,117,23,0.08);
+}
+.refs-list { display: flex; gap: 6px; flex-wrap: wrap; }
+.ref-num {
+  font-family: var(--g-mono); font-size: 12px;
+  color: var(--g-text3);
+}
+@media (max-width: 720px) {
+  .concept { padding: 28px 18px 40px; }
+  .concept-head { grid-template-columns: 1fr; gap: 20px; padding-bottom: 20px; }
+  .concept-mark :global(svg) { width: 160px; height: 160px; }
+  .concept-titre { font-size: 28px; }
+  .concept-def { font-size: 17px; }
+}
+</style>
