@@ -6,9 +6,12 @@ interface Props {
 }
 const {
   title = 'GOORG',
-  description = 'Revue numérique de pensée hybride',
   lang = 'fr',
 } = Astro.props;
+const defaultDescription = lang === 'en'
+  ? 'Digital journal of hybrid thought'
+  : 'Revue numérique de pensée hybride';
+const description = Astro.props.description ?? defaultDescription;
 ---
 <!doctype html>
 <html lang={lang}>

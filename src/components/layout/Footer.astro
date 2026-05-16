@@ -25,10 +25,10 @@ const links = [
   { label: en ? 'glossary'  : 'glossaire',  href: `/${lang}/glossaire` },
 ];
 
-// Compteurs (build-time)
-const textes     = await getCollection('textes',     e => e.data.publie);
-const transits   = await getCollection('transits',   e => e.data.publie);
-const resonances = await getCollection('resonances', e => e.data.publie);
+// Compteurs (build-time, filtrés par langue actuelle)
+const textes     = await getCollection('textes',     e => e.data.publie && e.data.langues.includes(lang));
+const transits   = await getCollection('transits',   e => e.data.publie && e.data.langues.includes(lang));
+const resonances = await getCollection('resonances', e => e.data.publie && e.data.langues.includes(lang));
 const glossaire  = await getCollection('glossaire');
 
 const membraneLabel: Record<string, { fr: string; en: string }> = {
