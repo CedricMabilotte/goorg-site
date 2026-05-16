@@ -216,11 +216,28 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
       ctx.restore();
     }
 
-    // Détection de drag basée sur une distance cumulée, pas tout mouvement
+    // — Hit-test : convertit coords client → coords canvas (W×H intrinsèques),
+    //   en tenant compte du fait que le canvas est étiré en CSS via width:100%.
+    //   C'est cette conversion qui manquait — le clic ne touchait jamais les nœuds.
+    function clientToCanvas(clientX: number, clientY: number) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = canvas.width  / rect.width;
+      const sy = canvas.height / rect.height;
+      const t  = transformRef.current;
+      const mx = ((clientX - rect.left) * sx - t.x) / t.k;
+      const my = ((clientY - rect.top)  * sy - t.y) / t.k;
+      return { mx, my, scaleX: sx, scaleY: sy };
+    }
+    function getNodeAt(e: MouseEvent | { clientX: number; clientY: number }) {
+      const { mx, my } = clientToCanvas(e.clientX, e.clientY);
+      return nodes.find(n => Math.hypot(n.x! - mx, n.y! - my) < (n.cat === 'core' ? 18 : 12) + 6) || null;
+    }
+
+    // — Drag / pan avec seuil de distance cumulée (en coords canvas) —
     let mouseDownAt: { x: number; y: number } | null = null;
     let movedDist = 0;
     let dragging = false;
-    const DRAG_THRESHOLD = 6; // pixels avant de considérer un drag
+    const DRAG_THRESHOLD = 4; // pixels CSS avant de considérer un drag
 
     canvas.addEventListener('mousedown', e => {
       mouseDownAt = { x: e.clientX, y: e.clientY };
@@ -236,8 +253,12 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
             cancelAnimationFrame(animFrameRef.current);
             animFrameRef.current = null;
           }
-          transformRef.current.x += e.movementX;
-          transformRef.current.y += e.movementY;
+          // Convertir le delta CSS en delta canvas pour préserver la précision
+          const rect = canvas.getBoundingClientRect();
+          const sx = canvas.width  / rect.width;
+          const sy = canvas.height / rect.height;
+          transformRef.current.x += e.movementX * sx;
+          transformRef.current.y += e.movementY * sy;
           tickDraw();
         }
       }
@@ -256,13 +277,27 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
       tickDraw();
     }, { passive: false });
 
-    function getNodeAt(e: MouseEvent) {
-      const rect = canvas.getBoundingClientRect();
-      const t = transformRef.current;
-      const mx = (e.clientX - rect.left - t.x) / t.k;
-      const my = (e.clientY - rect.top - t.y) / t.k;
-      return nodes.find(n => Math.hypot(n.x! - mx, n.y! - my) < (n.cat === 'core' ? 18 : 12) + 6) || null;
-    }
+    // — Support touch (mobile / tablette) —
+    let touchStartAt: { x: number; y: number; t: number } | null = null;
+    canvas.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        const t = e.touches[0];
+        touchStartAt = { x: t.clientX, y: t.clientY, t: Date.now() };
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchend', e => {
+      if (!touchStartAt) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartAt.x;
+      const dy = t.clientY - touchStartAt.y;
+      const dt = Date.now() - touchStartAt.t;
+      // Tap = mouvement < 8px et durée < 400ms
+      if (Math.hypot(dx, dy) < 8 && dt < 400) {
+        const n = getNodeAt({ clientX: t.clientX, clientY: t.clientY });
+        setActiveNode(prev => prev?.id === n?.id ? null : (n || null));
+      }
+      touchStartAt = null;
+    });
 
     return () => {
       simRef.current?.stop();
@@ -278,14 +313,14 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
   return (
     <div style={{ background: '#1a160f', padding: '16px', borderRadius: '8px' }}>
       <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-        <span style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', color: '#a89a7d', letterSpacing: '0.08em' }}>
+        <span style={{ fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-xs)', color: '#a89a7d', letterSpacing: '0.08em' }}>
           {lang === 'en' ? 'Filter —' : 'Filtrer —'}
         </span>
         {['all','core','process','entity','ethics'].map(cat => (
           <button key={cat}
             onClick={() => { setActiveCat(cat); setActiveNode(null); }}
             style={{
-              fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.06em',
+              fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-xs)', letterSpacing: '0.06em',
               padding: '6px 12px',
               border: `0.5px solid ${activeCat === cat ? 'rgba(186,117,23,0.42)' : 'rgba(186,117,23,0.22)'}`,
               borderRadius: '4px', cursor: 'pointer',
@@ -301,33 +336,33 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
         {activeNode ? (
           <>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-              <div style={{ fontFamily: 'Georgia, serif', fontSize: '18px', color: CAT_COLOR[activeNode.cat] }}>
+              <div style={{ fontFamily: 'Georgia, serif', fontSize: 'var(--fs-base)', color: CAT_COLOR[activeNode.cat] }}>
                 {activeNode.id}
               </div>
               <a
                 href={`/${lang}/glossaire/${idToSlug(activeNode.id)}`}
-                style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.08em', color: '#F4B144', textDecoration: 'none', border: '0.5px solid rgba(186,117,23,0.42)', padding: '5px 11px', borderRadius: '4px' }}
+                style={{ fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-xs)', letterSpacing: '0.08em', color: '#F4B144', textDecoration: 'none', border: '0.5px solid rgba(186,117,23,0.42)', padding: '5px 11px', borderRadius: '4px' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(186,117,23,0.10)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
                 {lang === 'en' ? 'Open card →' : 'Ouvrir la fiche →'}
               </a>
             </div>
-            <div style={{ fontFamily: 'Georgia, serif', fontSize: '16px', color: '#f8eed4', lineHeight: '1.6', marginBottom: '12px' }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 'var(--fs-base)', color: '#f8eed4', lineHeight: '1.6', marginBottom: '12px' }}>
               {activeNode.def}
             </div>
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               {activeNode.links.map(l => (
                 <button key={l}
                   onClick={() => setActiveNode(NODES.find(n => n.id === l) || null)}
-                  style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.07em', padding: '4px 10px', border: '0.5px solid rgba(186,117,23,0.42)', borderRadius: '3px', color: '#d0c0a0', background: 'transparent', cursor: 'pointer' }}>
+                  style={{ fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-xs)', letterSpacing: '0.07em', padding: '4px 10px', border: '0.5px solid rgba(186,117,23,0.42)', borderRadius: '3px', color: '#d0c0a0', background: 'transparent', cursor: 'pointer' }}>
                   → {l}
                 </button>
               ))}
             </div>
           </>
         ) : (
-          <div style={{ fontFamily: 'Courier New, monospace', fontSize: '13px', color: '#a89a7d', fontStyle: 'italic' }}>
+          <div style={{ fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-sm)', color: '#a89a7d', fontStyle: 'italic' }}>
             {lang === 'en'
               ? 'Click on a concept to explore its definition and connections.'
               : 'Cliquez sur un concept pour explorer sa définition et ses connexions.'}
@@ -336,7 +371,7 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
       </div>
       <div style={{ display: 'flex', gap: '18px', marginTop: '12px', flexWrap: 'wrap' }}>
         {Object.entries(CAT_COLOR).map(([cat, col]) => (
-          <div key={cat} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'Courier New, monospace', fontSize: '12px', color: '#d0c0a0' }}>
+          <div key={cat} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'Courier New, monospace', fontSize: 'var(--fs-xs)', color: '#d0c0a0' }}>
             <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: col }}></div>
             {lang === 'en' ? ({ all: 'all', core: 'core', process: 'process', entity: 'entity', ethics: 'ethics' } as Record<string,string>)[cat] : catLabels[cat]}
           </div>
