@@ -196,13 +196,40 @@ export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
         const r = n.cat === 'core' ? 18 : 12;
         const col = CAT_COLOR[n.cat];
         ctx.globalAlpha = an ? (isActive || isConn ? 1 : 0.25) : 1;
-
-        ctx.beginPath();
-        ctx.arc(n.x!, n.y!, r, 0, 2 * Math.PI);
         ctx.fillStyle = isActive ? col : col + '44';
-        ctx.fill();
         ctx.strokeStyle = isActive ? col : col + '99';
         ctx.lineWidth = isActive ? 2 : 0.8;
+
+        // Forme par catégorie — signature visuelle identitaire :
+        // core = octogone (la forme complète, structurale)
+        // process = carré (structure stable)
+        // entity = losange (carré rotationné 45°, dynamique)
+        // ethics = cercle (la forme ouverte)
+        ctx.beginPath();
+        if (n.cat === 'core') {
+          // Octogone régulier
+          for (let i = 0; i < 8; i++) {
+            const a = (Math.PI / 8) + i * (Math.PI / 4);
+            const px = n.x! + r * Math.cos(a);
+            const py = n.y! + r * Math.sin(a);
+            if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+        } else if (n.cat === 'process') {
+          // Carré aligné aux axes
+          ctx.rect(n.x! - r, n.y! - r, 2 * r, 2 * r);
+        } else if (n.cat === 'entity') {
+          // Losange (4 sommets, rotation 45°)
+          ctx.moveTo(n.x!, n.y! - r);
+          ctx.lineTo(n.x! + r, n.y!);
+          ctx.lineTo(n.x!, n.y! + r);
+          ctx.lineTo(n.x! - r, n.y!);
+          ctx.closePath();
+        } else {
+          // ethics = cercle (defaut)
+          ctx.arc(n.x!, n.y!, r, 0, 2 * Math.PI);
+        }
+        ctx.fill();
         ctx.stroke();
 
         ctx.font = `${n.cat === 'core' ? '500 11' : '9'}px 'Courier New', monospace`;
