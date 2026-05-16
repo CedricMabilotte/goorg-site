@@ -62,7 +62,7 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
 .texte-meta-top { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
 .texte-date { font-family: var(--g-mono); font-size: 10px; color: var(--g-text3); margin-left: auto; }
 .texte-title {
-  font-family: var(--g-serif); font-size: 32px; font-weight: 400;
+  font-family: var(--g-serif); font-size: var(--fs-4xl); font-weight: 400;
   color: var(--g-text); line-height: 1.2; margin-bottom: 16px;
 }
 .texte-author {
@@ -97,7 +97,7 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
 }
 .sep {
   text-align: center; color: var(--g-text3);
-  font-family: var(--g-serif); font-size: 18px;
+  font-family: var(--g-serif); font-size: var(--fs-base);
   letter-spacing: 0.4em; margin: 2.5em 0 2em;
 }
 .fil-ouvert {
@@ -108,5 +108,5 @@ const date = entry.data.date.toLocaleDateString('fr-FR', { year: 'numeric', mont
   font-family: var(--g-mono); font-size: 9px; letter-spacing: 0.14em;
   color: var(--g-amber); text-transform: uppercase; margin-bottom: 8px;
 }
-.fil-ouvert p { font-family: var(--g-serif); font-size: 14px; color: var(--g-text2); font-style: italic; }
+.fil-ouvert p { font-family: var(--g-serif); font-size: var(--fs-md); color: var(--g-text2); font-style: italic; }
 </style>

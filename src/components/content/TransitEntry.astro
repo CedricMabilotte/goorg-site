@@ -79,14 +79,14 @@ const numLabel = typeof index === 'number' ? String(index).padStart(2, '0') : nu
 
 .tx-head {
   display: flex; align-items: baseline; gap: 8px;
-  font-family: var(--g-mono); font-size: 12px;
+  font-family: var(--g-mono); font-size: var(--fs-xs);
   letter-spacing: 0.10em;
   margin-bottom: 10px;
 }
 .tx-marker { color: var(--g-amber-l); font-size: 10px; }
 .tx-label  { color: var(--g-amber-l); font-weight: bold; letter-spacing: 0.18em; }
 .tx-num    { color: var(--g-text3); font-size: 11px; }
-.tx-date   { color: var(--g-text2); margin-left: auto; font-size: 12px; letter-spacing: 0.06em; }
+.tx-date   { color: var(--g-text2); margin-left: auto; font-size: var(--fs-xs); letter-spacing: 0.06em; }
 
 .tx-body {
   display: grid;

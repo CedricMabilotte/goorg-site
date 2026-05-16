@@ -107,20 +107,20 @@ const definition = entry.data.definition_en ?? entry.data.definition;
   width: max-content;
 }
 .concept-titre {
-  font-family: var(--g-serif); font-size: 40px; font-weight: 400;
+  font-family: var(--g-serif); font-size: var(--fs-5xl); font-weight: 400;
   color: var(--g-text); line-height: 1.15; letter-spacing: -0.01em;
 }
 .concept-titre-en {
-  font-family: var(--g-serif); font-size: 18px; font-style: italic;
+  font-family: var(--g-serif); font-size: var(--fs-base); font-style: italic;
   color: var(--g-text2);
 }
 .concept-body { margin-bottom: 40px; }
 .concept-def {
-  font-family: var(--g-serif); font-size: 21px;
+  font-family: var(--g-serif); font-size: var(--fs-xl);
   color: var(--g-text); line-height: 1.6;
 }
 .concept-def::first-letter {
-  font-family: var(--g-serif); font-size: 48px;
+  font-family: var(--g-serif); font-size: var(--fs-7xl);
   color: var(--g-amber-l); float: left;
   line-height: 1; padding: 4px 8px 0 0;
 }
@@ -132,7 +132,7 @@ const definition = entry.data.definition_en ?? entry.data.definition;
 }
 .liens-list { display: flex; gap: 8px; flex-wrap: wrap; }
 .lien-btn {
-  font-family: var(--g-mono); font-size: 12px;
+  font-family: var(--g-mono); font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   padding: 6px 11px;
   border: 0.5px solid var(--g-border2);
@@ -147,14 +147,14 @@ const definition = entry.data.definition_en ?? entry.data.definition;
 }
 .refs-list { display: flex; gap: 6px; flex-wrap: wrap; }
 .ref-num {
-  font-family: var(--g-mono); font-size: 12px;
+  font-family: var(--g-mono); font-size: var(--fs-xs);
   color: var(--g-text3);
 }
 @media (max-width: 720px) {
   .concept { padding: 28px 18px 40px; }
   .concept-head { grid-template-columns: 1fr; gap: 20px; padding-bottom: 20px; }
   .concept-mark :global(svg) { width: 160px; height: 160px; }
-  .concept-titre { font-size: 28px; }
-  .concept-def { font-size: 17px; }
+  .concept-titre { font-size: var(--fs-3xl); }
+  .concept-def { font-size: var(--fs-base); }
 }
 </style>
