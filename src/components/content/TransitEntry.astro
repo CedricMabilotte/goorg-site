@@ -1,0 +1,115 @@
+---
+/**
+ * TransitEntry — vignette cyber-pop pour les transits.
+ * Format compact, terminal-like, ambre saturé, mini-hypercubestar à gauche.
+ * Destinée à un grid 2 colonnes sur la home.
+ */
+import Hypercubestar from '../identity/Hypercubestar.astro';
+
+interface Props {
+  date: string;       // déjà formatté côté caller
+  isoDate?: string;   // ISO pour <time datetime>
+  extrait: string;
+  voix?: string[];
+  auteur?: string;
+  slug: string;
+  lang?: string;
+  index?: number;     // numéro d'ordre dans le grid pour l'effet "log"
+}
+const {
+  date, isoDate, extrait, voix = [], auteur, slug, lang = 'fr', index,
+} = Astro.props;
+const labelVoix = voix.length > 0 ? voix.join(' · ') : (auteur ?? '—');
+const numLabel = typeof index === 'number' ? String(index).padStart(2, '0') : null;
+---
+<a href={`/${lang}/transits/${slug}`} class="tx">
+  <div class="tx-head">
+    <span class="tx-marker">▶</span>
+    <span class="tx-label">TRANSIT</span>
+    {numLabel && <span class="tx-num">·{numLabel}</span>}
+    <time class="tx-date" datetime={isoDate}>{date}</time>
+  </div>
+  <div class="tx-body">
+    <div class="tx-mark" aria-hidden="true">
+      <Hypercubestar size={36} variant="transit" decorative={true} />
+    </div>
+    <p class="tx-extrait">{extrait}</p>
+  </div>
+  <div class="tx-foot">
+    <span class="tx-voix">// {labelVoix}</span>
+    <span class="tx-arrow">→</span>
+  </div>
+</a>
+
+<style>
+.tx {
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, rgba(186,117,23,0.05) 0%, transparent 100%);
+  border: 0.5px solid rgba(186,117,23,0.28);
+  border-left: 2px solid var(--g-amber);
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 0 6px 6px 0;
+  position: relative;
+  transition: background .15s, border-color .15s, transform .15s;
+  overflow: hidden;
+}
+.tx::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 38px; height: 38px;
+  background-image: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(244,177,68,0.18) 45%,
+    rgba(244,177,68,0.18) 55%,
+    transparent 55%
+  );
+  background-size: 6px 6px;
+  pointer-events: none;
+}
+.tx:hover {
+  background: linear-gradient(180deg, rgba(186,117,23,0.10) 0%, rgba(186,117,23,0.02) 100%);
+  border-color: var(--g-amber-l);
+  border-left-color: var(--g-amber-l);
+}
+.tx:focus-visible { outline: 1px solid var(--g-amber-l); outline-offset: 2px; }
+
+.tx-head {
+  display: flex; align-items: baseline; gap: 8px;
+  font-family: var(--g-mono); font-size: 12px;
+  letter-spacing: 0.10em;
+  margin-bottom: 10px;
+}
+.tx-marker { color: var(--g-amber-l); font-size: 10px; }
+.tx-label  { color: var(--g-amber-l); font-weight: bold; letter-spacing: 0.18em; }
+.tx-num    { color: var(--g-text3); font-size: 11px; }
+.tx-date   { color: var(--g-text2); margin-left: auto; font-size: 12px; letter-spacing: 0.06em; }
+
+.tx-body {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 10px;
+}
+.tx-mark { opacity: 0.85; padding-top: 2px; }
+.tx-extrait {
+  font-family: var(--g-serif); font-size: 16px;
+  color: var(--g-text); line-height: 1.55;
+  font-style: italic;
+}
+
+.tx-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 8px;
+  border-top: 0.5px dashed rgba(186,117,23,0.22);
+  font-family: var(--g-mono); font-size: 11px;
+  color: var(--g-text2); letter-spacing: 0.06em;
+}
+.tx-voix { color: var(--g-text2); }
+.tx-arrow { color: var(--g-amber-l); transition: transform .15s; }
+.tx:hover .tx-arrow { transform: translateX(3px); }
+</style>
