@@ -3,16 +3,16 @@
   --g-bg2:      #221e15;
   --g-bg3:      #2a2519;
   --g-bg4:      #322d20;
-  --g-border:   rgba(186,117,23,0.20);
-  --g-border2:  rgba(186,117,23,0.38);
-  --g-amber:    #BA7517;
-  --g-amber-l:  #EF9F27;
-  --g-amber-ll: #FAEEDA;
-  --g-text:     #ece4cf;
-  --g-text2:    #b2a384;
-  --g-text3:    #8a7e64;
-  --g-teal:     #5DCAA5;
-  --g-purple:   #AFA9EC;
+  --g-border:   rgba(186,117,23,0.22);
+  --g-border2:  rgba(186,117,23,0.42);
+  --g-amber:    #C68220;
+  --g-amber-l:  #F4B144;
+  --g-amber-ll: #FCEAC2;
+  --g-text:     #f8eed4;
+  --g-text2:    #d0c0a0;
+  --g-text3:    #a89a7d;
+  --g-teal:     #74D7B5;
+  --g-purple:   #C0BBF1;
   --g-serif:    Georgia, 'Times New Roman', serif;
   --g-mono:     'Courier New', monospace;
   --g-sans:     system-ui, sans-serif;
@@ -20,16 +20,16 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--g-bg); color: var(--g-text); }
-body { font-family: var(--g-serif); font-size: 17px; line-height: 1.72; }
+body { font-family: var(--g-serif); font-size: 18px; line-height: 1.72; }
 a { color: inherit; }
 
-h1 { font-family: var(--g-serif); font-size: 42px; font-weight: 400; }
-h2 { font-family: var(--g-serif); font-size: 24px; font-weight: 400; }
-h3 { font-family: var(--g-serif); font-size: 19px; font-weight: 400; }
+h1 { font-family: var(--g-serif); font-size: 44px; font-weight: 400; }
+h2 { font-family: var(--g-serif); font-size: 26px; font-weight: 400; }
+h3 { font-family: var(--g-serif); font-size: 20px; font-weight: 400; }
 
 .badge {
-  font-family: var(--g-mono); font-size: 11px; letter-spacing: 0.09em;
-  text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.09em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 3px;
 }
 .badge-texte    { background: rgba(186,117,23,0.12); color: var(--g-amber-l); border: 0.5px solid rgba(186,117,23,0.28); }
 .badge-transit  { background: rgba(90,80,64,0.3);   color: var(--g-text2);   border: 0.5px solid var(--g-border); }
@@ -37,13 +37,13 @@ h3 { font-family: var(--g-serif); font-size: 19px; font-weight: 400; }
 .badge-ia       { background: rgba(83,74,183,0.15); color: var(--g-purple);  border: 0.5px solid rgba(83,74,183,0.28); }
 
 .btn-primary {
-  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
-  padding: 10px 20px; background: var(--g-amber); color: #1c1208;
+  font-family: var(--g-mono); font-size: 13px; letter-spacing: 0.08em;
+  padding: 11px 22px; background: var(--g-amber); color: #1c1208;
   border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block;
 }
 .btn-ghost {
-  font-family: var(--g-mono); font-size: 12px; letter-spacing: 0.08em;
-  padding: 10px 20px; background: transparent; color: var(--g-amber-l);
+  font-family: var(--g-mono); font-size: 13px; letter-spacing: 0.08em;
+  padding: 11px 22px; background: transparent; color: var(--g-amber-l);
   border: 0.5px solid var(--g-border2); border-radius: 6px; cursor: pointer;
   text-decoration: none; display: inline-block;
 }

@@ -32,7 +32,7 @@ const CAT_ORDER = ['core', 'process', 'entity', 'ethics'];
     </header>
 
     <section class="graph-wrap">
-      <ConceptGraph client:load />
+      <ConceptGraph client:load lang="en" />
     </section>
 
     <section class="index">
@@ -68,27 +68,27 @@ const CAT_ORDER = ['core', 'process', 'entity', 'ethics'];
   color: var(--g-text); margin-bottom: 12px;
 }
 .gloss-sub {
-  font-family: var(--g-serif); font-size: 16px;
+  font-family: var(--g-serif); font-size: 18px;
   color: var(--g-text2); line-height: 1.65;
   max-width: 680px;
 }
 .graph-wrap { margin-bottom: 48px; }
 .index { margin-top: 40px; }
 .index-label {
-  font-family: var(--g-mono); font-size: 11px;
-  letter-spacing: 0.14em; color: var(--g-text3);
+  font-family: var(--g-mono); font-size: 13px;
+  letter-spacing: 0.14em; color: var(--g-text2);
   text-transform: uppercase; margin-bottom: 20px;
   padding-bottom: 12px; border-bottom: 0.5px solid var(--g-border);
 }
 .cat-group { margin-bottom: 32px; }
 .cat-title {
-  font-family: var(--g-mono); font-size: 13px;
+  font-family: var(--g-mono); font-size: 14px;
   letter-spacing: 0.18em; text-transform: uppercase;
   margin-bottom: 14px;
   display: flex; align-items: baseline; gap: 10px;
 }
 .cat-count {
-  font-size: 11px; color: var(--g-text3);
+  font-size: 12px; color: var(--g-text3);
   letter-spacing: 0.06em;
 }
 .cat-list {
@@ -106,8 +106,8 @@ const CAT_ORDER = ['core', 'process', 'entity', 'ethics'];
 .concept-link:hover { background: var(--g-bg2); }
 .concept-mini { flex-shrink: 0; opacity: 0.85; }
 .concept-name {
-  font-family: var(--g-serif); font-size: 15px;
-  color: var(--g-text2);
+  font-family: var(--g-serif); font-size: 17px;
+  color: var(--g-text);
   line-height: 1.3;
 }
 .concept-link:hover .concept-name { color: var(--g-text); }
