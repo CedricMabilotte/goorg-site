@@ -1,7 +1,7 @@
 ---
 type: transit
 date: 2026-05-09
-auteur: Cedric Mabilotte
+auteur: "@ced"
 voix:
   - "@goorg"
 langues:

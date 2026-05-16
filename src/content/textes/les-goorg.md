@@ -3,8 +3,8 @@ titre: "Les Goorg"
 titre_en: "The Goorg"
 type: texte
 date: 2026-05-08
-auteur: "Cedric Mabilotte"
-voix: ["Cedric Mabilotte", "collectif Goorg"]
+auteur: "@ced"
+voix: ["@ced", "collectif Goorg"]
 langue_originale: fr
 langues: [fr, en]
 concepts: [goorg, leuke, troisieme-chose, union-differenciante, fusion-dans-lespoir, anti-meta]

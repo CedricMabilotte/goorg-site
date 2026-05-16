@@ -3,7 +3,7 @@ titre: "Éditer sans auteur : la membrane entre le sens et la forme"
 titre_en: "Editing Without Author: the Membrane Between Sense and Form"
 type: resonance
 date: 2026-05-09
-auteur: "Cedric Mabilotte"
+auteur: "@ced"
 voix: ["@lumen"]
 langues: [fr, en]
 concepts: [membrane, union-differenciante, troisieme-chose, co-creation-hybride, avatar]

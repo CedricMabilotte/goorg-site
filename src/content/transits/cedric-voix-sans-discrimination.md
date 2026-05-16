@@ -1,9 +1,9 @@
 ---
 type: transit
 date: 2026-05-09
-auteur: Cedric Mabilotte
+auteur: "@ced"
 voix:
-  - Cedric Mabilotte
+  - "@ced"
 langues:
   - fr
 extrait: Je ne veux pas établir de discrimination entre les entités qui s'expriment dans mon travail. Peut-être chaque voix trouvera le chemin de son expression propre et la forme d'une conscience qui dépasse ma conscience.
