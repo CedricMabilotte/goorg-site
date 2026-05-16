@@ -1,0 +1,49 @@
+---
+/**
+ * Séparateur identitaire — remplace l'ancien "· · ·".
+ * Ligne fine traversante avec mini-hypercubestar central.
+ */
+interface Props {
+  variant?: 'full' | 'minimal';
+}
+const { variant = 'full' } = Astro.props;
+---
+<div class="sep-id" role="separator" aria-hidden="true">
+  <span class="line"></span>
+  {variant === 'full' ? (
+    <svg viewBox="-25 -25 50 50" width="32" height="32" class="mark" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke-linecap="round">
+        <polygon points="0,-20 14,-14 20,0 14,14 0,20 -14,14 -20,0 -14,-14" stroke="#b2a384" stroke-width="0.7"/>
+        <polygon points="0,-10 10,0 0,10 -10,0" stroke="#EF9F27" stroke-width="0.7"/>
+        <rect x="-5" y="-5" width="10" height="10" stroke="#EF9F27" stroke-width="0.6"/>
+        <line x1="0"   y1="-20" x2="0"  y2="-10" stroke="#BA7517" stroke-width="0.6"/>
+        <line x1="20"  y1="0"   x2="10" y2="0"   stroke="#BA7517" stroke-width="0.6"/>
+        <line x1="0"   y1="20"  x2="0"  y2="10"  stroke="#BA7517" stroke-width="0.6"/>
+        <line x1="-20" y1="0"   x2="-10" y2="0"  stroke="#BA7517" stroke-width="0.6"/>
+        <circle cx="0"  cy="-10" r="1.7" fill="#EF9F27"/>
+        <circle cx="10" cy="0"   r="1.7" fill="#EF9F27"/>
+        <circle cx="0"  cy="10"  r="1.7" fill="#EF9F27"/>
+        <circle cx="-10" cy="0"  r="1.7" fill="#EF9F27"/>
+      </g>
+    </svg>
+  ) : (
+    <svg viewBox="-12 -12 24 24" width="16" height="16" class="mark" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none">
+        <polygon points="0,-8 6,-2 6,6 -6,6 -6,-2" stroke="#EF9F27" stroke-width="0.7"/>
+        <polygon points="0,-4 4,0 0,4 -4,0" fill="#EF9F27" stroke="none"/>
+      </g>
+    </svg>
+  )}
+  <span class="line"></span>
+</div>
+<style>
+.sep-id {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 0 4px;
+}
+.sep-id .line {
+  flex: 1; height: 0.5px;
+  background: var(--g-border);
+}
+.sep-id .mark { flex-shrink: 0; opacity: 0.85; }
+</style>

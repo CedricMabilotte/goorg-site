@@ -58,3 +58,15 @@ h3 { font-family: var(--g-serif); font-size: 19px; font-weight: 400; }
 }
 
 .sep { text-align: center; color: var(--g-text3); font-family: var(--g-serif); font-size: 20px; letter-spacing: 0.4em; margin: 2rem 0; }
+
+/* Pattern de fond hypercubestar — appliqué sur sections en .bg-tess */
+.bg-tess {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g stroke='%233a3424' stroke-width='0.4' fill='none' stroke-linecap='round'><polygon points='40,16 56,21 64,40 56,59 40,64 24,59 16,40 24,21'/><polygon points='40,28 52,40 40,52 28,40'/><line x1='40' y1='16' x2='40' y2='28'/><line x1='64' y1='40' x2='52' y2='40'/><line x1='40' y1='64' x2='40' y2='52'/><line x1='16' y1='40' x2='28' y2='40'/></g></svg>");
+  background-repeat: repeat;
+  background-position: center;
+}
+.bg-tess-faint {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g stroke='%23302a1d' stroke-width='0.3' fill='none' stroke-linecap='round'><polygon points='40,16 56,21 64,40 56,59 40,64 24,59 16,40 24,21'/><polygon points='40,28 52,40 40,52 28,40'/></g></svg>");
+  background-repeat: repeat;
+  background-position: center;
+}

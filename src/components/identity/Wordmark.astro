@@ -1,0 +1,42 @@
+---
+import Hypercubestar from './Hypercubestar.astro';
+interface Props {
+  lang?: string;
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+}
+const { lang = 'fr', size = 'md', href = `/${lang}` } = Astro.props;
+const en = lang === 'en';
+const tagline = en ? 'hybrid thought journal' : 'revue de pensée hybride';
+const dims = { sm: 32, md: 48, lg: 72 };
+const fontSizes = { sm: '14px', md: '18px', lg: '24px' };
+const tagSizes = { sm: '9px',  md: '10px', lg: '11px' };
+---
+<a href={href} class={`wm wm-${size}`} aria-label={en ? 'GOORG — home' : 'GOORG — accueil'}>
+  <Hypercubestar size={dims[size]} simplified={size === 'sm'} decorative={true} />
+  <span class="wm-text">
+    <span class="wm-name" style={`font-size: ${fontSizes[size]}`}>GOORG</span>
+    <span class="wm-tag"  style={`font-size: ${tagSizes[size]}`}>{tagline}</span>
+  </span>
+</a>
+<style>
+.wm {
+  display: inline-flex; align-items: center; gap: 14px;
+  text-decoration: none; color: inherit;
+}
+.wm-sm { gap: 10px; }
+.wm-lg { gap: 18px; }
+.wm-text { display: flex; flex-direction: column; gap: 3px; }
+.wm-name {
+  font-family: var(--g-mono);
+  color: var(--g-amber-l);
+  letter-spacing: 0.22em;
+}
+.wm-tag {
+  font-family: var(--g-mono);
+  color: var(--g-text3);
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+}
+.wm:focus-visible { outline: 1px solid var(--g-amber-l); outline-offset: 4px; border-radius: 4px; }
+</style>
