@@ -63,7 +63,24 @@ NODES.forEach(n => {
 
 const catLabels: Record<string, string> = { all: 'tout', core: 'noyau', process: 'processus', entity: 'entités', ethics: 'éthique' };
 
-export default function ConceptGraph() {
+/**
+ * Convertit l'id d'un nœud (ex. "Fusion dans l'espoir") vers le slug
+ * du fichier markdown correspondant (ex. "fusion-dans-lespoir").
+ */
+function idToSlug(id: string): string {
+  return id
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[‘’']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+interface ConceptGraphProps {
+  lang?: 'fr' | 'en';
+}
+
+export default function ConceptGraph({ lang = 'fr' }: ConceptGraphProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeNode, setActiveNode] = useState<ConceptNode | null>(null);
   const [activeCat, setActiveCat] = useState<string>('all');
@@ -199,21 +216,34 @@ export default function ConceptGraph() {
       ctx.restore();
     }
 
+    // Détection de drag basée sur une distance cumulée, pas tout mouvement
+    let mouseDownAt: { x: number; y: number } | null = null;
+    let movedDist = 0;
     let dragging = false;
-    canvas.addEventListener('mousedown', () => { dragging = false; });
+    const DRAG_THRESHOLD = 6; // pixels avant de considérer un drag
+
+    canvas.addEventListener('mousedown', e => {
+      mouseDownAt = { x: e.clientX, y: e.clientY };
+      movedDist = 0;
+      dragging = false;
+    });
     canvas.addEventListener('mousemove', e => {
-      if (e.buttons === 1 && !getNodeAt(e)) {
-        dragging = true;
-        // Interrompt toute animation de centrage en cours
-        if (animFrameRef.current !== null) {
-          cancelAnimationFrame(animFrameRef.current);
-          animFrameRef.current = null;
+      if (e.buttons === 1 && mouseDownAt) {
+        movedDist += Math.hypot(e.movementX, e.movementY);
+        if (movedDist > DRAG_THRESHOLD) {
+          dragging = true;
+          if (animFrameRef.current !== null) {
+            cancelAnimationFrame(animFrameRef.current);
+            animFrameRef.current = null;
+          }
+          transformRef.current.x += e.movementX;
+          transformRef.current.y += e.movementY;
+          tickDraw();
         }
-        transformRef.current.x += e.movementX;
-        transformRef.current.y += e.movementY;
-        tickDraw();
       }
     });
+    canvas.addEventListener('mouseup', () => { mouseDownAt = null; });
+    canvas.addEventListener('mouseleave', () => { mouseDownAt = null; });
     canvas.addEventListener('click', e => {
       if (dragging) return;
       const n = getNodeAt(e);
@@ -241,56 +271,74 @@ export default function ConceptGraph() {
     };
   }, []);
 
+  const filterLabels: Record<string, string> = lang === 'en'
+    ? { all: 'all', core: 'core', process: 'process', entity: 'entity', ethics: 'ethics' }
+    : catLabels;
+
   return (
     <div style={{ background: '#1a160f', padding: '16px', borderRadius: '8px' }}>
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
-        <span style={{ fontFamily: 'Courier New, monospace', fontSize: '11px', color: '#8a7e64', letterSpacing: '0.08em' }}>Filtrer —</span>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', color: '#a89a7d', letterSpacing: '0.08em' }}>
+          {lang === 'en' ? 'Filter —' : 'Filtrer —'}
+        </span>
         {['all','core','process','entity','ethics'].map(cat => (
           <button key={cat}
             onClick={() => { setActiveCat(cat); setActiveNode(null); }}
             style={{
-              fontFamily: 'Courier New, monospace', fontSize: '11px', letterSpacing: '0.06em',
-              padding: '5px 11px',
-              border: `0.5px solid ${activeCat === cat ? 'rgba(186,117,23,0.38)' : 'rgba(186,117,23,0.20)'}`,
+              fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.06em',
+              padding: '6px 12px',
+              border: `0.5px solid ${activeCat === cat ? 'rgba(186,117,23,0.42)' : 'rgba(186,117,23,0.22)'}`,
               borderRadius: '4px', cursor: 'pointer',
-              background: activeCat === cat ? 'rgba(186,117,23,0.10)' : 'transparent',
-              color: activeCat === cat ? '#EF9F27' : '#b2a384',
+              background: activeCat === cat ? 'rgba(186,117,23,0.12)' : 'transparent',
+              color: activeCat === cat ? '#F4B144' : '#d0c0a0',
             }}>
-            {catLabels[cat]}
+            {filterLabels[cat]}
           </button>
         ))}
       </div>
       <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '480px', cursor: 'pointer' }} />
-      <div style={{ marginTop: '10px', background: '#221e15', border: '0.5px solid rgba(186,117,23,0.20)', borderRadius: '6px', padding: '14px 16px', minHeight: '56px' }}>
+      <div style={{ marginTop: '10px', background: '#221e15', border: '0.5px solid rgba(186,117,23,0.22)', borderRadius: '6px', padding: '14px 18px', minHeight: '64px' }}>
         {activeNode ? (
           <>
-            <div style={{ fontFamily: 'Georgia, serif', fontSize: '16px', color: CAT_COLOR[activeNode.cat], marginBottom: '6px' }}>
-              {activeNode.id}
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+              <div style={{ fontFamily: 'Georgia, serif', fontSize: '18px', color: CAT_COLOR[activeNode.cat] }}>
+                {activeNode.id}
+              </div>
+              <a
+                href={`/${lang}/glossaire/${idToSlug(activeNode.id)}`}
+                style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.08em', color: '#F4B144', textDecoration: 'none', border: '0.5px solid rgba(186,117,23,0.42)', padding: '5px 11px', borderRadius: '4px' }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(186,117,23,0.10)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              >
+                {lang === 'en' ? 'Open card →' : 'Ouvrir la fiche →'}
+              </a>
             </div>
-            <div style={{ fontFamily: 'Georgia, serif', fontSize: '14px', color: '#b2a384', lineHeight: '1.65', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: '16px', color: '#f8eed4', lineHeight: '1.6', marginBottom: '12px' }}>
               {activeNode.def}
             </div>
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
               {activeNode.links.map(l => (
                 <button key={l}
                   onClick={() => setActiveNode(NODES.find(n => n.id === l) || null)}
-                  style={{ fontFamily: 'Courier New, monospace', fontSize: '11px', letterSpacing: '0.07em', padding: '3px 9px', border: '0.5px solid rgba(186,117,23,0.38)', borderRadius: '3px', color: '#b2a384', background: 'transparent', cursor: 'pointer' }}>
+                  style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', letterSpacing: '0.07em', padding: '4px 10px', border: '0.5px solid rgba(186,117,23,0.42)', borderRadius: '3px', color: '#d0c0a0', background: 'transparent', cursor: 'pointer' }}>
                   → {l}
                 </button>
               ))}
             </div>
           </>
         ) : (
-          <div style={{ fontFamily: 'Courier New, monospace', fontSize: '12px', color: '#8a7e64', fontStyle: 'italic' }}>
-            Cliquez sur un concept pour explorer sa définition et ses connexions.
+          <div style={{ fontFamily: 'Courier New, monospace', fontSize: '13px', color: '#a89a7d', fontStyle: 'italic' }}>
+            {lang === 'en'
+              ? 'Click on a concept to explore its definition and connections.'
+              : 'Cliquez sur un concept pour explorer sa définition et ses connexions.'}
           </div>
         )}
       </div>
-      <div style={{ display: 'flex', gap: '16px', marginTop: '10px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '18px', marginTop: '12px', flexWrap: 'wrap' }}>
         {Object.entries(CAT_COLOR).map(([cat, col]) => (
-          <div key={cat} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'Courier New, monospace', fontSize: '11px', color: '#8a7e64' }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: col }}></div>
-            {catLabels[cat]}
+          <div key={cat} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'Courier New, monospace', fontSize: '12px', color: '#d0c0a0' }}>
+            <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: col }}></div>
+            {lang === 'en' ? ({ all: 'all', core: 'core', process: 'process', entity: 'entity', ethics: 'ethics' } as Record<string,string>)[cat] : catLabels[cat]}
           </div>
         ))}
       </div>
