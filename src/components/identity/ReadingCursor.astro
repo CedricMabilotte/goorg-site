@@ -1,0 +1,59 @@
+---
+/**
+ * ReadingCursor — curseur réticule "optique goorg" sur les zones de lecture.
+ * Un mini carré encadré d'une croix qui suit le curseur de la souris.
+ * Le curseur système est conservé (en pointer) en complément.
+ *
+ * À inclure dans les pages article (textes, transits, résonances, concepts).
+ */
+---
+<div id="rc" aria-hidden="true">
+  <svg viewBox="-12 -12 24 24" xmlns="http://www.w3.org/2000/svg">
+    <rect x="-5" y="-5" width="10" height="10" fill="none" stroke="#F4B144" stroke-width="0.8"/>
+    <line x1="-10" y1="0" x2="-7" y2="0" stroke="#F4B144" stroke-width="0.8"/>
+    <line x1="10" y1="0" x2="7" y2="0" stroke="#F4B144" stroke-width="0.8"/>
+    <line x1="0" y1="-10" x2="0" y2="-7" stroke="#F4B144" stroke-width="0.8"/>
+    <line x1="0" y1="10" x2="0" y2="7" stroke="#F4B144" stroke-width="0.8"/>
+    <circle cx="0" cy="0" r="1.2" fill="#F4B144"/>
+  </svg>
+</div>
+<style>
+#rc {
+  position: fixed; top: 0; left: 0;
+  width: 24px; height: 24px;
+  pointer-events: none;
+  z-index: 80;
+  transform: translate(-100px, -100px);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  mix-blend-mode: screen;
+}
+#rc svg { width: 100%; height: 100%; display: block; }
+#rc.on { opacity: 0.9; }
+
+/* — Désactivation sur tactile et préférences réduites — */
+@media (hover: none) { #rc { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { #rc { display: none !important; } }
+</style>
+<script is:inline>
+(function () {
+  const rc = document.getElementById('rc');
+  if (!rc) return;
+  // Désactive sur tactile (déjà géré en CSS, redondant côté JS)
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  let raf = 0;
+  let nextX = 0, nextY = 0;
+  function move() {
+    rc.style.transform = 'translate(' + (nextX - 12) + 'px,' + (nextY - 12) + 'px)';
+    raf = 0;
+  }
+  document.addEventListener('mousemove', (e) => {
+    nextX = e.clientX;
+    nextY = e.clientY;
+    rc.classList.add('on');
+    if (!raf) raf = requestAnimationFrame(move);
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => rc.classList.remove('on'));
+})();
+</script>

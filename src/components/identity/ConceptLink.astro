@@ -1,0 +1,139 @@
+---
+/**
+ * ConceptLink — lien vers une fiche du glossaire avec tooltip riche au survol.
+ * Affiche un encart cyber-pop (mini-hypercubestar variant + définition courte
+ * + flèche d'ouverture) qui se déploie sous le lien au hover/focus.
+ *
+ * Usage :
+ *   <ConceptLink slug="membrane" lang="fr">la membrane</ConceptLink>
+ */
+import Hypercubestar from './Hypercubestar.astro';
+import { getEntry } from 'astro:content';
+import { getVariant, CATEGORIE_LABEL_FR, CATEGORIE_LABEL_EN, CATEGORIE_COLOR } from '../../lib/glossaire-variants';
+
+interface Props {
+  slug: string;
+  lang?: string;
+}
+const { slug, lang = 'fr' } = Astro.props;
+const en = lang === 'en';
+const entry = await getEntry('glossaire', slug);
+
+if (!entry) {
+  // Fallback : rendre un texte normal si le concept n'existe pas
+}
+const variant = entry ? getVariant(slug) : 'default';
+const terme = entry ? (en && entry.data.terme_en ? entry.data.terme_en : entry.data.terme) : slug;
+const def = entry ? (en && entry.data.definition_en ? entry.data.definition_en : entry.data.definition) : '';
+const cat = entry ? entry.data.categorie : 'core';
+const catLabel = (en ? CATEGORIE_LABEL_EN : CATEGORIE_LABEL_FR)[cat] ?? cat;
+const catColor = CATEGORIE_COLOR[cat] ?? '#F4B144';
+const href = `/${lang}/glossaire/${slug}`;
+---
+{entry ? (
+  <span class="cl-wrap">
+    <a href={href} class="cl-link">
+      <slot>{terme}</slot>
+    </a>
+    <span class="cl-pop" role="tooltip">
+      <span class="cl-pop-head">
+        <span class="cl-mark" aria-hidden="true">
+          <Hypercubestar size={44} variant={variant} simplified={true} decorative={true} />
+        </span>
+        <span class="cl-pop-meta">
+          <span class="cl-pop-cat" style={`color: ${catColor};`}>{catLabel}</span>
+          <span class="cl-pop-titre">{terme}</span>
+        </span>
+      </span>
+      <span class="cl-pop-def">{def}</span>
+      <span class="cl-pop-foot">
+        <span class="cl-pop-arrow">{en ? 'open the card →' : 'ouvrir la fiche →'}</span>
+      </span>
+    </span>
+  </span>
+) : (
+  <a href={href} class="cl-link"><slot>{slug}</slot></a>
+)}
+
+<style>
+.cl-wrap {
+  position: relative;
+  display: inline;
+}
+.cl-link {
+  color: var(--g-amber-l);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(244,177,68,0.45);
+  padding-bottom: 1px;
+  transition: color .12s, border-color .12s;
+}
+.cl-link:hover,
+.cl-link:focus-visible {
+  color: var(--g-amber-ll);
+  border-bottom-color: var(--g-amber-l);
+}
+
+.cl-pop {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: 320px;
+  background: var(--g-bg2);
+  border: var(--b-thin) solid var(--g-border2);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: none;
+  z-index: 60;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+.cl-pop::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px; height: 10px;
+  background: var(--g-bg2);
+  border-right: var(--b-thin) solid var(--g-border2);
+  border-bottom: var(--b-thin) solid var(--g-border2);
+}
+.cl-wrap:hover .cl-pop,
+.cl-link:focus-visible + .cl-pop { display: block; }
+
+.cl-pop-head {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.cl-mark { display: inline-flex; opacity: 0.95; }
+.cl-pop-meta { display: flex; flex-direction: column; gap: 2px; }
+.cl-pop-cat {
+  font-family: var(--g-mono); font-size: 10px;
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+}
+.cl-pop-titre {
+  font-family: var(--g-serif); font-size: var(--fs-md);
+  color: var(--g-text); line-height: 1.25;
+}
+.cl-pop-def {
+  display: block;
+  font-family: var(--g-serif); font-size: var(--fs-sm);
+  color: var(--g-text2); line-height: var(--lh-relaxed);
+  margin-bottom: 10px;
+}
+.cl-pop-foot {
+  display: flex; justify-content: flex-end;
+  font-family: var(--g-mono); font-size: 11px;
+  letter-spacing: var(--ls-mono); color: var(--g-amber-l);
+}
+
+@media (max-width: 720px) {
+  .cl-pop { width: 260px; }
+}
+</style>

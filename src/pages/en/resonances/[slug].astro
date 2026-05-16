@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
 import ReadingProgress from '../../../components/identity/ReadingProgress.astro';
+import ReadingCursor from '../../../components/identity/ReadingCursor.astro';
 import Footer from '../../../components/layout/Footer.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 
@@ -22,6 +23,7 @@ const date = entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', mont
 <BaseLayout lang="en" title={titre}>
   <TopBar lang="en" />
   <ReadingProgress />
+  <ReadingCursor />
   <article class="res-layout">
     <header class="res-header">
       <div class="res-meta-top">

@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
 import ReadingProgress from '../../../components/identity/ReadingProgress.astro';
+import ReadingCursor from '../../../components/identity/ReadingCursor.astro';
 import Footer from '../../../components/layout/Footer.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 
@@ -23,6 +24,7 @@ const isTranslated = !!entry.data.titre_en;
 <BaseLayout lang="en" title={titre}>
   <TopBar lang="en" />
   <ReadingProgress />
+  <ReadingCursor />
   <article class="texte-layout">
     {!isTranslated && (
       <div class="translation-notice">

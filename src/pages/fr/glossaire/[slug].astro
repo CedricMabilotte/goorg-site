@@ -2,8 +2,10 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopBar from '../../../components/layout/TopBar.astro';
 import ReadingProgress from '../../../components/identity/ReadingProgress.astro';
+import ReadingCursor from '../../../components/identity/ReadingCursor.astro';
 import Footer from '../../../components/layout/Footer.astro';
 import Hypercubestar from '../../../components/identity/Hypercubestar.astro';
+import ConceptLink from '../../../components/identity/ConceptLink.astro';
 import { getCollection, getEntry } from 'astro:content';
 import { getVariant, CATEGORIE_LABEL_FR, CATEGORIE_COLOR } from '../../../lib/glossaire-variants';
 
@@ -29,6 +31,7 @@ const lies = entry.data.liens
 <BaseLayout title={entry.data.terme} description={entry.data.definition}>
   <TopBar lang="fr" />
   <ReadingProgress />
+  <ReadingCursor />
   <article class="concept">
     <header class="concept-head">
       <div class="concept-mark">
@@ -53,9 +56,9 @@ const lies = entry.data.liens
         <div class="liens-label">Concepts liés</div>
         <div class="liens-list">
           {lies.map(l => (
-            <a href={`/fr/glossaire/${l.id}`} class="lien-btn">
-              → {l.data.terme}
-            </a>
+            <span class="lien-btn-wrap">
+              <ConceptLink slug={l.id} lang="fr">→ {l.data.terme}</ConceptLink>
+            </span>
           ))}
         </div>
       </section>
@@ -131,19 +134,19 @@ const lies = entry.data.liens
   text-transform: uppercase; margin-bottom: 12px;
 }
 .liens-list { display: flex; gap: 8px; flex-wrap: wrap; }
-.lien-btn {
+.lien-btn-wrap { display: inline-flex; }
+.lien-btn-wrap :global(.cl-link) {
   font-family: var(--g-mono); font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   padding: 6px 11px;
-  border: 0.5px solid var(--g-border2);
-  border-radius: 4px;
-  color: var(--g-text2);
-  text-decoration: none;
-  transition: color .15s, background .15s;
+  border: var(--b-thin) solid var(--g-border2);
+  border-radius: var(--radius-md);
+  color: var(--g-text);
+  display: inline-block;
 }
-.lien-btn:hover {
+.lien-btn-wrap :global(.cl-link):hover {
   color: var(--g-amber-l);
-  background: rgba(186,117,23,0.08);
+  background: rgba(186,117,23,0.10);
 }
 .refs-list { display: flex; gap: 6px; flex-wrap: wrap; }
 .ref-num {
