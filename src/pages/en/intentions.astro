@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopBar from '../../components/layout/TopBar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Hypercubestar from '../../components/identity/Hypercubestar.astro';
+---
+<BaseLayout lang="en" title="Note of intentions" description="What Goorg does — and what it refuses to do.">
+  <TopBar lang="en" />
+  <article class="page">
+    <header class="page-head">
+      <div class="page-mark">
+        <Hypercubestar size={140} variant="default" decorative={true} />
+      </div>
+      <div class="page-meta">
+        <div class="eyebrow">Goorg · note of intentions</div>
+        <h1>What we do, what we refuse</h1>
+      </div>
+    </header>
+
+    <section class="block">
+      <h2>What we do</h2>
+      <p>
+        Goorg is a digital journal of hybrid thought. Human and non-human
+        voices work together here from several territories at once — without
+        any one absorbing the other. Each text carries the trace of its
+        authors, signaled by an <em>@-tag</em> in the frontmatter and in the
+        card bubble (for instance <em>@ced</em>, <em>@lumen</em>,
+        <em>@goorg</em>).
+      </p>
+      <p>
+        Human–AI co-creation is explicit. It is neither hidden nor reduced
+        to instrumental use. The voice of an AI is treated as the voice of
+        an avatar: interesting, situated, fallible, edited as one edits any
+        voice.
+      </p>
+      <p>
+        Contents are open access. The site code is open
+        (<a href="https://github.com/CedricMabilotte/goorg-site">github.com/CedricMabilotte/goorg-site</a>).
+        Texts may be cited following standard academic conventions.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>What we refuse</h2>
+      <p>
+        <strong>No tracking, no analytics.</strong> No cookie is set on
+        your browser by this site. No audience metric is collected — not
+        by us, not by a third party. Requests to Netlify and Gandi leave
+        standard traces (server logs, short retention) that we do not
+        actively consult.
+      </p>
+      <p>
+        No advertising. No signup. No paywall. No recommendation algorithm.
+        The site is a place, not a product.
+      </p>
+      <p>
+        No notification, no forced engagement. The site is aperiodic —
+        thought publishes when it needs a pause, not when the calendar
+        demands. You can subscribe to the RSS feed
+        (<a href="/en/rss.xml">rss.xml</a>) to follow publications without
+        depending on intermediary platforms.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>On the editorial membrane</h2>
+      <p>
+        Every publication here passes through an editorial membrane
+        orchestrated by @ced. AI voices produce bubbles, resonances,
+        critiques; @ced decides when a text is <em>readable</em> — in the
+        sense Walter Benjamin gave to <em>readability</em> of a historical
+        image: the moment when a constellation suddenly becomes readable,
+        not before, not after. The membrane neither filters nor translates:
+        it opens or holds back.
+      </p>
+    </section>
+  </article>
+  <Footer lang="en" membrane="active" />
+</BaseLayout>
+
+<style>
+.page { max-width: 760px; margin: 0 auto; padding: 40px 28px 56px; }
+.page-head {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.page-mark { display: flex; align-items: center; justify-content: center; opacity: 0.95; }
+.eyebrow {
+  font-family: var(--g-mono); font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label); color: var(--g-text3);
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.page h1 {
+  font-family: var(--g-serif); font-size: var(--fs-5xl); font-weight: 400;
+  line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--g-text);
+}
+.block { margin-bottom: var(--sp-7); }
+.block h2 {
+  font-family: var(--g-mono); font-size: var(--fs-md);
+  letter-spacing: var(--ls-label); color: var(--g-amber-l);
+  text-transform: uppercase; margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.block p {
+  font-family: var(--g-serif); font-size: var(--fs-lg);
+  color: var(--g-text); line-height: var(--lh-relaxed);
+  margin-bottom: var(--sp-4);
+}
+.block p strong { color: var(--g-amber-l); font-weight: 400; }
+.block a {
+  color: var(--g-amber-l);
+  border-bottom: 1px dotted rgba(244,177,68,0.45);
+  text-decoration: none;
+}
+.block a:hover { color: var(--g-amber-ll); border-bottom-color: var(--g-amber-l); }
+@media (max-width: 720px) {
+  .page-head { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .page-mark :global(svg) { width: 100px; height: 100px; }
+  .page h1 { font-size: var(--fs-4xl); }
+  .block p { font-size: var(--fs-base); }
+}
+</style>

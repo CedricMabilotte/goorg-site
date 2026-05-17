@@ -24,6 +24,11 @@ const links = [
   { label: en ? 'resonances': 'résonances', href: `/${lang}/resonances` },
   { label: en ? 'glossary'  : 'glossaire',  href: `/${lang}/glossaire` },
 ];
+const metaLinks = [
+  { label: en ? 'intentions' : 'intentions',       href: `/${lang}/intentions` },
+  { label: en ? 'legal'      : 'mentions légales', href: en ? '/en/legal' : '/fr/mentions-legales' },
+  { label: 'rss',                                  href: `/${lang}/rss.xml` },
+];
 
 // Compteurs (build-time, filtrés par langue actuelle)
 const textes     = await getCollection('textes',     e => e.data.publie && e.data.langues.includes(lang));
@@ -79,6 +84,10 @@ const mLabel = membraneLabel[membrane][en ? 'en' : 'fr'];
       {motto}
     </div>
   </div>
+
+  <nav class="footer-meta-links" aria-label={en ? 'Meta links' : 'Liens méta'}>
+    {metaLinks.map(l => <a href={l.href}>{l.label}</a>)}
+  </nav>
 </footer>
 
 <style>
@@ -152,6 +161,18 @@ const mLabel = membraneLabel[membrane][en ? 'en' : 'fr'];
   color: var(--g-text2); letter-spacing: var(--ls-mono);
   line-height: var(--lh-loose); text-align: right;
 }
+.footer-meta-links {
+  display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: var(--b-thin) dashed var(--g-border);
+}
+.footer-meta-links a {
+  font-family: var(--g-mono); font-size: var(--fs-xs);
+  letter-spacing: var(--ls-mono); color: var(--g-text3);
+  text-decoration: none; transition: color .15s;
+}
+.footer-meta-links a:hover { color: var(--g-amber-l); }
 @media (max-width: 720px) {
   .footer { padding: var(--sp-7) var(--sp-4) var(--sp-6); }
   .footer-meta { text-align: left; }

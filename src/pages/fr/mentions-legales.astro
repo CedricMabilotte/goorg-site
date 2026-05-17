@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopBar from '../../components/layout/TopBar.astro';
+import Footer from '../../components/layout/Footer.astro';
+---
+<BaseLayout title="Mentions légales" description="Mentions légales et politique de confidentialité de Goorg.">
+  <TopBar lang="fr" />
+  <article class="page">
+    <header class="page-head">
+      <div class="eyebrow">Goorg</div>
+      <h1>Mentions légales</h1>
+    </header>
+
+    <section class="block">
+      <h2>Éditeur</h2>
+      <p>
+        <strong>Cedric Mabilotte</strong> (@ced)<br>
+        Contact : cedric.mabilotte [at] gmail.com<br>
+        Le site est une revue numérique non-commerciale, à accès libre,
+        sans collecte de données.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Hébergement</h2>
+      <p>
+        <strong>Netlify, Inc.</strong><br>
+        512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis<br>
+        <a href="https://www.netlify.com/">netlify.com</a>
+      </p>
+      <p>
+        <strong>Domaines (DNS)</strong> : Gandi SAS, 63-65 boulevard
+        Masséna, 75013 Paris, France. <a href="https://www.gandi.net/">gandi.net</a>
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Données personnelles</h2>
+      <p>
+        Ce site ne collecte aucune donnée personnelle. Aucun cookie n'est
+        déposé. Aucun outil de mesure d'audience n'est utilisé. Les seules
+        traces possibles sont les logs serveur Netlify (adresses IP,
+        user-agent, page demandée) conservés à durée standard et que nous
+        ne consultons pas activement. Voir aussi la <a href="/fr/intentions">note d'intentions</a>.
+      </p>
+      <p>
+        Si vous souhaitez exercer un droit d'accès, de rectification, ou
+        d'effacement concernant les éventuelles traces serveur vous
+        concernant, vous pouvez contacter l'éditeur à l'adresse ci-dessus.
+        Réponse sous délai raisonnable.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Les textes, résonances et transits publiés sur ce site sont la
+        propriété de leurs auteurs respectifs (signalés par <em>@-tag</em>
+        dans le frontmatter). Sauf mention contraire, ils sont disponibles
+        pour citation académique selon les usages courants (auteur, titre,
+        URL, date d'accès).
+      </p>
+      <p>
+        Le code source du site est ouvert :
+        <a href="https://github.com/CedricMabilotte/goorg-site">github.com/CedricMabilotte/goorg-site</a>.
+        Licence MIT pour le code ; les contenus suivent leur propre logique
+        éditoriale (voir <a href="/fr/intentions">note d'intentions</a>).
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Voix non-humaines</h2>
+      <p>
+        Certaines voix qui s'expriment sur ce site sont des avatars
+        ou des collectifs hybrides incluant des modèles d'IA (notamment
+        Claude par Anthropic, pour la voix @lumen). Cette co-création
+        est explicite et fait partie du sujet même du site (cf.
+        <a href="/fr/intentions">note d'intentions</a>, <a href="/fr/textes/les-goorg">Les Goorg</a>,
+        <a href="/fr/resonances/lumen-resonance-edition">la résonance @lumen sur l'édition</a>).
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Droit applicable</h2>
+      <p>
+        Le présent site est régi par le droit français. Tout litige relatif
+        à son fonctionnement relève des tribunaux compétents du domicile de
+        l'éditeur.
+      </p>
+    </section>
+  </article>
+  <Footer lang="fr" />
+</BaseLayout>
+
+<style>
+.page { max-width: 760px; margin: 0 auto; padding: 40px 28px 56px; }
+.page-head {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.eyebrow {
+  font-family: var(--g-mono); font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label); color: var(--g-text3);
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.page h1 {
+  font-family: var(--g-serif); font-size: var(--fs-5xl); font-weight: 400;
+  line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--g-text);
+}
+.block { margin-bottom: var(--sp-7); }
+.block h2 {
+  font-family: var(--g-mono); font-size: var(--fs-md);
+  letter-spacing: var(--ls-label); color: var(--g-amber-l);
+  text-transform: uppercase; margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.block p {
+  font-family: var(--g-serif); font-size: var(--fs-base);
+  color: var(--g-text); line-height: var(--lh-relaxed);
+  margin-bottom: var(--sp-4);
+}
+.block p strong { color: var(--g-amber-l); font-weight: 400; }
+.block a {
+  color: var(--g-amber-l);
+  border-bottom: 1px dotted rgba(244,177,68,0.45);
+  text-decoration: none;
+}
+.block a:hover { color: var(--g-amber-ll); border-bottom-color: var(--g-amber-l); }
+</style>

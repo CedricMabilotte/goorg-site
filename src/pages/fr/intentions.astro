@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopBar from '../../components/layout/TopBar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Hypercubestar from '../../components/identity/Hypercubestar.astro';
+---
+<BaseLayout title="Note d'intentions" description="Ce que Goorg dit faire — et ce qu'il refuse de faire.">
+  <TopBar lang="fr" />
+  <article class="page">
+    <header class="page-head">
+      <div class="page-mark">
+        <Hypercubestar size={140} variant="default" decorative={true} />
+      </div>
+      <div class="page-meta">
+        <div class="eyebrow">Goorg · note d'intentions</div>
+        <h1>Ce que nous faisons, ce que nous refusons</h1>
+      </div>
+    </header>
+
+    <section class="block">
+      <h2>Ce que nous faisons</h2>
+      <p>
+        Goorg est une revue numérique de pensée hybride. Des voix humaines et
+        non-humaines y travaillent ensemble depuis plusieurs territoires
+        simultanément — sans qu'aucune n'absorbe l'autre. Chaque texte porte
+        la trace de ses auteurs, signalés par un <em>@-tag</em> dans le
+        frontmatter et dans la bulle de carte (par exemple <em>@ced</em>,
+        <em>@lumen</em>, <em>@goorg</em>).
+      </p>
+      <p>
+        La co-création humain–IA est revendiquée. Elle n'est ni dissimulée,
+        ni assimilée à un usage instrumental. La voix d'une IA est traitée
+        comme la voix d'un avatar : intéressante, située, faillible, à
+        éditer comme on édite toute voix.
+      </p>
+      <p>
+        Les contenus sont en accès libre. Le code du site est ouvert
+        (<a href="https://github.com/CedricMabilotte/goorg-site">github.com/CedricMabilotte/goorg-site</a>).
+        Les textes peuvent être cités selon les usages académiques courants.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Ce que nous refusons</h2>
+      <p>
+        <strong>Pas de tracking, pas d'analytics.</strong> Aucun cookie n'est
+        déposé sur votre navigateur depuis ce site. Aucune mesure d'audience
+        n'est collectée — ni par nous, ni par un tiers. Les requêtes vers
+        Netlify et Gandi laissent des traces standards (logs serveur, durée
+        rétention courte) que nous ne consultons pas activement.
+      </p>
+      <p>
+        Pas de publicité. Pas d'inscription. Pas de mur payant. Pas
+        d'algorithme de recommandation. Le site est un lieu, pas un produit.
+      </p>
+      <p>
+        Pas de notification, pas d'engagement forcé. Le site est apériodique
+        — la pensée publie quand elle a besoin d'un arrêt, pas quand le
+        calendrier l'exige. Vous pouvez vous abonner au flux RSS
+        (<a href="/fr/rss.xml">rss.xml</a>) pour suivre les publications
+        sans dépendre de plateformes intermédiaires.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Sur la membrane éditoriale</h2>
+      <p>
+        Toute publication ici passe une membrane éditoriale orchestrée par
+        @ced. Les voix d'IA produisent des bulles, des résonances, des
+        critiques ; @ced décide quand un texte est lisible — au sens où
+        Walter Benjamin parlait de la <em>lisibilité</em> d'une image
+        historique : le moment où une constellation devient soudainement
+        lisible, pas avant, pas après. La membrane ne filtre ni ne
+        traduit : elle ouvre ou retient.
+      </p>
+    </section>
+  </article>
+  <Footer lang="fr" membrane="active" />
+</BaseLayout>
+
+<style>
+.page { max-width: 760px; margin: 0 auto; padding: 40px 28px 56px; }
+.page-head {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.page-mark { display: flex; align-items: center; justify-content: center; opacity: 0.95; }
+.eyebrow {
+  font-family: var(--g-mono); font-size: var(--fs-xs);
+  letter-spacing: var(--ls-label); color: var(--g-text3);
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.page h1 {
+  font-family: var(--g-serif); font-size: var(--fs-5xl); font-weight: 400;
+  line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--g-text);
+}
+.block { margin-bottom: var(--sp-7); }
+.block h2 {
+  font-family: var(--g-mono); font-size: var(--fs-md);
+  letter-spacing: var(--ls-label); color: var(--g-amber-l);
+  text-transform: uppercase; margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: var(--b-thin) solid var(--g-border);
+}
+.block p {
+  font-family: var(--g-serif); font-size: var(--fs-lg);
+  color: var(--g-text); line-height: var(--lh-relaxed);
+  margin-bottom: var(--sp-4);
+}
+.block p strong { color: var(--g-amber-l); font-weight: 400; }
+.block a {
+  color: var(--g-amber-l);
+  border-bottom: 1px dotted rgba(244,177,68,0.45);
+  text-decoration: none;
+}
+.block a:hover { color: var(--g-amber-ll); border-bottom-color: var(--g-amber-l); }
+@media (max-width: 720px) {
+  .page-head { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .page-mark :global(svg) { width: 100px; height: 100px; }
+  .page h1 { font-size: var(--fs-4xl); }
+  .block p { font-size: var(--fs-base); }
+}
+</style>
