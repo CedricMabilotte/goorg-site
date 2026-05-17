@@ -1,0 +1,74 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1a160f"/>
+  <defs>
+    <pattern id="bgp" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <g stroke="#302a1d" stroke-width="0.5" fill="none">
+        <polygon points="40,16 56,21 64,40 56,59 40,64 24,59 16,40 24,21"/>
+        <polygon points="40,28 52,40 40,52 28,40"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgp)" opacity="0.5"/>
+
+  <!-- Hypercubestar à gauche, taille 360 -->
+  <g transform="translate(280 315) scale(1.8)" fill="none" stroke-linecap="round">
+    <!-- Octogone externe -->
+    <polygon points="0,-75 53,-53 75,0 53,53 0,75 -53,53 -75,0 -53,-53" stroke="#b2a384" stroke-width="0.9"/>
+    <!-- Losange médian -->
+    <polygon points="0,-42 42,0 0,42 -42,0" stroke="#F4B144" stroke-width="0.9"/>
+    <!-- Carré interne -->
+    <rect x="-18" y="-18" width="36" height="36" stroke="#F4B144" stroke-width="0.9" fill="none"/>
+    <!-- Radiales cardinales -->
+    <line x1="0" y1="-75" x2="0" y2="-42" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="75" y1="0" x2="42" y2="0" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="0" y1="75" x2="0" y2="42" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="-75" y1="0" x2="-42" y2="0" stroke="#C68220" stroke-width="0.8"/>
+    <!-- Diagonales -->
+    <line x1="53" y1="-53" x2="18" y2="-18" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="53" y1="53" x2="18" y2="18" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="-53" y1="53" x2="-18" y2="18" stroke="#C68220" stroke-width="0.8"/>
+    <line x1="-53" y1="-53" x2="-18" y2="-18" stroke="#C68220" stroke-width="0.8"/>
+    <!-- Sommets -->
+    <circle cx="0" cy="-75" r="2.8" fill="#b2a384"/>
+    <circle cx="53" cy="-53" r="2.4" fill="#b2a384"/>
+    <circle cx="75" cy="0" r="2.8" fill="#b2a384"/>
+    <circle cx="53" cy="53" r="2.4" fill="#b2a384"/>
+    <circle cx="0" cy="75" r="2.8" fill="#b2a384"/>
+    <circle cx="-53" cy="53" r="2.4" fill="#b2a384"/>
+    <circle cx="-75" cy="0" r="2.8" fill="#b2a384"/>
+    <circle cx="-53" cy="-53" r="2.4" fill="#b2a384"/>
+    <circle cx="0" cy="-42" r="3" fill="#F4B144"/>
+    <circle cx="42" cy="0" r="3" fill="#F4B144"/>
+    <circle cx="0" cy="42" r="3" fill="#F4B144"/>
+    <circle cx="-42" cy="0" r="3" fill="#F4B144"/>
+    <circle cx="-18" cy="-18" r="2.8" fill="#F4B144"/>
+    <circle cx="18" cy="-18" r="2.8" fill="#F4B144"/>
+    <circle cx="18" cy="18" r="2.8" fill="#F4B144"/>
+    <circle cx="-18" cy="18" r="2.8" fill="#F4B144"/>
+  </g>
+
+  <!-- Texte à droite -->
+  <g transform="translate(580 200)">
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="86" letter-spacing="20" fill="#F4B144">GOORG</text>
+    <text x="0" y="42" font-family="'Courier New', monospace" font-size="20" letter-spacing="3" fill="#a89a7d">revue de pensée hybride · apériodique</text>
+  </g>
+
+  <!-- Tagline en serif italique -->
+  <text x="580" y="370" font-family="Georgia, serif" font-size="38" font-style="italic" fill="#f8eed4">
+    La fusion est dans l'espoir,
+  </text>
+  <text x="580" y="416" font-family="Georgia, serif" font-size="38" font-style="italic" fill="#f8eed4">
+    pas dans la matière.
+  </text>
+
+  <!-- URLs en bas -->
+  <text x="580" y="500" font-family="'Courier New', monospace" font-size="18" fill="#a89a7d" letter-spacing="1">
+    consciencesynthetique.org · syntheticconsciousness.org
+  </text>
+  <text x="580" y="528" font-family="'Courier New', monospace" font-size="16" fill="#a89a7d" letter-spacing="1">
+    co-création humain–ia · accès libre
+  </text>
+
+  <!-- Marqueur fin -->
+  <line x1="580" y1="240" x2="900" y2="240" stroke="#C68220" stroke-width="0.5"/>
+</svg>

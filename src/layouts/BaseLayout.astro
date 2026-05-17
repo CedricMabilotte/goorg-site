@@ -3,15 +3,32 @@ interface Props {
   title?: string;
   description?: string;
   lang?: string;
+  ogType?: 'website' | 'article';
 }
 const {
   title = 'GOORG',
   lang = 'fr',
+  ogType = 'website',
 } = Astro.props;
 const defaultDescription = lang === 'en'
-  ? 'Digital journal of hybrid thought'
-  : 'Revue numérique de pensée hybride';
+  ? 'Digital journal of hybrid thought — humans and AI thinking together without one absorbing the other.'
+  : "Revue numérique de pensée hybride — humains et IA pensent ensemble sans qu'aucune entité n'absorbe l'autre.";
 const description = Astro.props.description ?? defaultDescription;
+const displayTitle = title === 'GOORG' ? 'GOORG' : `${title} — GOORG`;
+
+// URL canonique (Astro.site défini dans astro.config.mjs)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/social-card.svg', Astro.site).toString();
+
+// Alternates FR/EN pour les moteurs de recherche
+const currentPath = Astro.url.pathname;
+const altPath = currentPath.startsWith('/fr')
+  ? currentPath.replace(/^\/fr/, '/en')
+  : currentPath.startsWith('/en')
+    ? currentPath.replace(/^\/en/, '/fr')
+    : null;
+const altLang = lang === 'fr' ? 'en' : 'fr';
+const siteName = 'GOORG';
 ---
 <!doctype html>
 <html lang={lang}>
@@ -19,8 +36,37 @@ const description = Astro.props.description ?? defaultDescription;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title === 'GOORG' ? 'GOORG' : `${title} — GOORG`}</title>
+    <title>{displayTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL.toString()} />
+    {altPath && (
+      <link rel="alternate" hreflang={altLang} href={new URL(altPath, Astro.site).toString()} />
+    )}
+    <link rel="alternate" hreflang={lang} href={canonicalURL.toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).toString()} />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title={`GOORG — ${lang === 'en' ? 'feed' : 'flux'}`} href={`/${lang}/rss.xml`} />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={displayTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL.toString()} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'fr_FR'} />
+    {altPath && <meta property="og:locale:alternate" content={altLang === 'en' ? 'en_US' : 'fr_FR'} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={displayTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body id="main">
