@@ -220,10 +220,10 @@ Si tu reprends une session :
 
 1. `git log --oneline -10` pour voir l'état récent.
 2. `git tag -l` pour les jalons posés.
-3. Lire le carnet de dette workspace :
-   `~/Documents/Claude/Projects/WebDev/dette-goorg-amelioration-*.md`.
-4. Lire les rapports @lumen et critiques d'originalité dans le même
-   workspace.
+3. Lire les audits et rapports archivés dans `archives/audits/` :
+   dette d'amélioration, critiques @lumen du corpus, vérification des
+   références, critique d'originalité d'interface, audits techniques.
+4. Références de conception (hypercube) dans `archives/refs/`.
 5. Vérifier `git status` clean.
 
 ---
